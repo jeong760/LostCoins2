@@ -12,7 +12,7 @@
 
 Bloom::Bloom(unsigned long long entries, double error) : _ready(0)
 {
-    if (entries < 1000 || error <= 0 || error >= 1) {
+    if (entries < 50 || error <= 0 || error >= 1) {
         printf("Bloom init error\n");
         return;
     }

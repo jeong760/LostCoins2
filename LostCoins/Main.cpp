@@ -6,7 +6,11 @@
 #include <string.h>
 #include <stdexcept>
 #include <iostream>
+#ifdef _WIN32
 #include <windows.h>
+#else
+#include <signal.h>
+#endif
 #define RELEASE "2.1"
 
 using namespace std;
@@ -41,31 +45,32 @@ const char* scolor = "Colors: 1-255 Recommended 3, 10, 11, 14, 15, 240 (White-bl
 void getInts(string name, vector<int>& tokens, const string& text, char sep)
 {
 
-	size_t start = 0, end = 0;
-	tokens.clear();
-	int item;
+	 size_t start = 0, end = 0;
+	 tokens.clear();
+	 int item;
 
-	try {
+	 try {
 
-		while ((end = text.find(sep, start)) != string::npos) {
-			item = std::stoi(text.substr(start, end - start));
-			tokens.push_back(item);
-			start = end + 1;
-		}
+		 while ((end = text.find(sep, start)) != string::npos) {
+			 item = std::stoi(text.substr(start, end - start));
+			 tokens.push_back(item);
+			 start = end + 1;
+		 }
 
-		item = std::stoi(text.substr(start));
-		tokens.push_back(item);
+		 item = std::stoi(text.substr(start));
+		 tokens.push_back(item);
 
-	}
-	catch (std::invalid_argument&) {
+	 }
+	 catch (std::invalid_argument&) {
 
-		printf("Invalid %s argument, number expected\n", name.c_str());
-		exit(-1);
+		 printf("Invalid %s argument, number expected\n", name.c_str());
+		 exit(-1);
 
-	}
+	 }
 
 }
 
+#ifdef _WIN32
 BOOL WINAPI CtrlHandler(DWORD fdwCtrlType)
 {
 	switch (fdwCtrlType) {
@@ -78,6 +83,13 @@ BOOL WINAPI CtrlHandler(DWORD fdwCtrlType)
 		return TRUE;
 	}
 }
+#else
+static void sigint_handler(int signo)
+{
+	(void)signo;
+	should_exit = true;
+}
+#endif
 
 int main(int argc, const char* argv[])
 {
@@ -86,6 +98,7 @@ int main(int argc, const char* argv[])
 	rseed(Timer::getSeed32());
 	struct console
 	{
+#ifdef _WIN32
 		console(unsigned width, unsigned height)
 		{
 			SMALL_RECT r;
@@ -119,6 +132,12 @@ int main(int argc, const char* argv[])
 
 		HANDLE                     hConOut;
 		CONSOLE_SCREEN_BUFFER_INFO csbi;
+#else
+		// Minimal console replacement for non-Windows platforms
+		console(unsigned /*width*/, unsigned /*height") { }
+		~console() { }
+		void color(unsigned /*color*/ = 0x07) { }
+#endif
 	};
 
 	//----------------------------------------------------------------------------
@@ -292,8 +311,10 @@ int main(int argc, const char* argv[])
 		printf("Invalid RIPEMD160 binary hash file path\n");
 		exit(-1);
 	}
+#ifdef _WIN32
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, color);
+#endif
 
 
 	nbit2 += nbCPUThread;
@@ -356,6 +377,7 @@ int main(int argc, const char* argv[])
 		printf(" OUTPUT FILE  : %s\n", outputFile.c_str());
 	}
 
+#ifdef _WIN32
 	if (SetConsoleCtrlHandler(CtrlHandler, TRUE)) {
 		LostCoins* v = new LostCoins(hash160File, seed, zez, diz, searchMode, gpuEnable,
 			outputFile, sse, maxFound, rekey, nbit, nbit2, paranoiacSeed, rangeStart1, rangeEnd1, should_exit);
@@ -370,4 +392,15 @@ int main(int argc, const char* argv[])
 		printf("error: could not set control-c handler\n");
 		return 1;
 	}
+#else
+	signal(SIGINT, sigint_handler);
+	LostCoins* v = new LostCoins(hash160File, seed, zez, diz, searchMode, gpuEnable,
+		outputFile, sse, maxFound, rekey, nbit, nbit2, paranoiacSeed, rangeStart1, rangeEnd1, should_exit);
+
+	v->Search(nbCPUThread, gpuId, gridSize, should_exit);
+
+	delete v;
+	printf("\n\nBYE\n");
+	return 0;
+#endif
 }

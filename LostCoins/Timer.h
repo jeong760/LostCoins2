@@ -13,14 +13,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 #ifndef TIMERH
 #define TIMERH
 
 #include <time.h>
 #include <string>
-#ifdef WIN64
+#include <cstdint>
+#ifdef _WIN32
 #include <windows.h>
 #endif
 
@@ -37,7 +38,7 @@ public:
     static uint32_t getSeed32();
     static void SleepMillis(uint32_t millis);
 
-#ifdef WIN64
+#ifdef _WIN32
     static LARGE_INTEGER perfTickStart;
     static double perfTicksPerSec;
     static LARGE_INTEGER qwTicksPerSec;

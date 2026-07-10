@@ -277,7 +277,7 @@ if (deviceProp.major == 8 && deviceProp.minor == 9) {
 ```cpp
 if (deviceProp.major == 9) {
     // Hopper optimization
-    nbThreadGroup = deviceProp.multiProcessorCount * 32;  // 132 * 32 = 4224 threads
+    nbThreadGroup = deviceProp.multiProcessorCount * 20;  // 132 * 20 = 2640 threads
     
     cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
     cudaDeviceSetSharedMemConfig(cudaSharedMemBankSizeEightByte);
@@ -309,7 +309,7 @@ if (deviceProp.major == 9) {
 ```cpp
 if (deviceProp.major >= 10) {
     // Blackwell optimization
-    nbThreadGroup = deviceProp.multiProcessorCount * 48;  // Future-proof scaling
+    nbThreadGroup = deviceProp.multiProcessorCount * 24;  // Balanced performance
     
     cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
     cudaDeviceSetSharedMemConfig(cudaSharedMemBankSizeEightByte);
@@ -378,19 +378,21 @@ nvprof --metrics all LostCoins.exe
 ## 6. Implementation Priority
 
 ### High Priority (15-20% improvement)
-1. ✅ Fix atomic contention with local accumulation
-2. ✅ Reduce register pressure (adjust GRP_SIZE)
-3. ⚠️ Improve warp divergence in BloomCheck
+1. ✅ GPU architecture detection and configuration (COMPLETED)
+2. ✅ Memory allocation error handling (COMPLETED)
+3. ⚠️ Fix atomic contention with local accumulation (PENDING)
+4. ⚠️ Reduce register pressure (adjust GRP_SIZE) (PENDING)
 
 ### Medium Priority (5-10% improvement)
-4. Coalesce memory access patterns
-5. Increase instruction-level parallelism
-6. Optimize synchronization overhead
+5. Improve warp divergence in BloomCheck
+6. Coalesce memory access patterns
+7. Increase instruction-level parallelism
+8. Optimize synchronization overhead
 
 ### Lower Priority (2-5% improvement)
-7. Cache optimization for hash functions
-8. Fine-tune block size per architecture
-9. Persistent kernel experiments
+9. Cache optimization for hash functions
+10. Fine-tune block size per architecture
+11. Persistent kernel experiments
 
 ---
 
@@ -414,22 +416,31 @@ nvprof --metrics all LostCoins.exe
 
 ### File: `LostCoins/GPU/GPUEngine.cu` ✅ UPDATED
 
-**Changes Made:**
+**Changes Made (Latest):**
+- ✅ Ada(SM 8.9) 중복 조건 수정 - 먼저 확인하도록 순서 변경
+- ✅ Blackwell(SM 10+) 전용 스레드 설정 추가 (24x multiProcessorCount)
+- ✅ Hopper(SM 9.0) 스레드 설정 최적화 (20x)
+- ✅ 아키텍처별 스택 크기 최적화 (48KB → 64KB → 128KB → 256KB)
+- ✅ 메모리 할당 실패 시 상세 에러 처리 및 정리 로직
+- ✅ GPU 초기화 단계별 상세 로그 메시지
+- ✅ PrintCudaInfo()에 아키텍처명 표시
+
+**Previous Changes:**
 - ✅ Added SM version checking for all architectures
 - ✅ Dynamic thread group optimization
 - ✅ Architecture-specific cache configuration
 - ✅ Improved GPU info reporting
 
 **Still Needed:**
-- [ ] Implement local accumulation for atomic operations
-- [ ] Optimize register pressure
-- [ ] Test warp divergence reduction
+- [ ] Implement local accumulation for atomic operations in GPUCompute.h
+- [ ] Optimize register pressure (consider GRP_SIZE reduction)
+- [ ] Test warp divergence reduction in BloomCheck
 
 ### File: `LostCoins/LostCoins.vcxproj` ✅ UPDATED
 
 **Changes Made:**
 - ✅ Updated from CUDA 10.2 to 12.0
-- ✅ Added multi-architecture compilation (sm_80, sm_86, sm_89, sm_90)
+- ✅ Added multi-architecture compilation (sm_80, sm_86, sm_89, sm_90, sm_100)
 - ✅ Added FastMath flag
 - ✅ Optimized release build settings
 
@@ -437,7 +448,7 @@ nvprof --metrics all LostCoins.exe
 
 ## 9. Next Steps
 
-1. **Implement atomic optimization** in GPUCompute.h
+1. **Implement atomic optimization** in GPUCompute.h (High Priority)
 2. **Profile with nsys** to identify remaining bottlenecks
 3. **Test on multiple GPUs** to validate improvements
 4. **Measure actual speedup** with benchmark
@@ -454,6 +465,6 @@ nvprof --metrics all LostCoins.exe
 
 ---
 
-**Last Updated:** May 4, 2026
+**Last Updated:** July 10, 2026
 **Maintainer:** jeong760
-**Status:** Active Development
+**Status:** Active Development - Phase 1 Complete

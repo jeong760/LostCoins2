@@ -176,11 +176,25 @@ GPUEngine::GPUEngine(int nbThreadGroup, int nbThreadPerGroup, int gpuId, uint32_
 
 	// Optimize thread group size based on GPU architecture
 	if (nbThreadGroup == -1) {
-		// For newer architectures (compute capability >= 8.0), increase thread groups
-		if (deviceProp.major >= 8) {
-			nbThreadGroup = deviceProp.multiProcessorCount * 16;  // Increased for Ada/Hopper
-		} else {
-			nbThreadGroup = deviceProp.multiProcessorCount * 8;   // Original for older archs
+		if (deviceProp.major >= 10) {
+			// Blackwell: Maximum parallel processing
+			nbThreadGroup = deviceProp.multiProcessorCount * 24;
+			printf("Using Blackwell thread configuration: %d thread groups\n", nbThreadGroup);
+		}
+		else if (deviceProp.major == 9) {
+			// Hopper: Enhanced parallelism
+			nbThreadGroup = deviceProp.multiProcessorCount * 20;
+			printf("Using Hopper thread configuration: %d thread groups\n", nbThreadGroup);
+		}
+		else if (deviceProp.major == 8) {
+			// Ada/Ampere: Improved configuration
+			nbThreadGroup = deviceProp.multiProcessorCount * 16;
+			printf("Using Ada/Ampere thread configuration: %d thread groups\n", nbThreadGroup);
+		}
+		else {
+			// Older architectures
+			nbThreadGroup = deviceProp.multiProcessorCount * 8;
+			printf("Using legacy thread configuration: %d thread groups\n", nbThreadGroup);
 		}
 	}
 
@@ -198,16 +212,18 @@ GPUEngine::GPUEngine(int nbThreadGroup, int nbThreadPerGroup, int gpuId, uint32_
 		deviceProp.minor);
 	deviceName = std::string(tmp);
 
-	// GPU-specific optimizations
-	if (deviceProp.major == 8 && deviceProp.minor >= 6) {
-		// Ampere (RTX 30 series)
-		printf("Optimizing for Ampere architecture (RTX 30 series)\n");
+	// GPU-specific optimizations based on architecture
+	printf("\nConfiguring GPU optimizations...\n");
+	
+	if (deviceProp.major == 8 && deviceProp.minor == 9) {
+		// Ada (RTX 40 series) - Check first to avoid overlap with Ampere
+		printf("Optimizing for Ada architecture (RTX 40 series)\n");
 		CudaSafeCall(cudaDeviceSetCacheConfig(cudaFuncCachePreferL1));
 		CudaSafeCall(cudaDeviceSetSharedMemConfig(cudaSharedMemBankSizeEightByte));
 	}
-	else if (deviceProp.major == 8 && deviceProp.minor == 9) {
-		// Ada (RTX 40 series)
-		printf("Optimizing for Ada architecture (RTX 40 series)\n");
+	else if (deviceProp.major == 8 && deviceProp.minor >= 6) {
+		// Ampere (RTX 30 series)
+		printf("Optimizing for Ampere architecture (RTX 30 series)\n");
 		CudaSafeCall(cudaDeviceSetCacheConfig(cudaFuncCachePreferL1));
 		CudaSafeCall(cudaDeviceSetSharedMemConfig(cudaSharedMemBankSizeEightByte));
 	}
@@ -218,18 +234,35 @@ GPUEngine::GPUEngine(int nbThreadGroup, int nbThreadPerGroup, int gpuId, uint32_
 		CudaSafeCall(cudaDeviceSetSharedMemConfig(cudaSharedMemBankSizeEightByte));
 	}
 	else if (deviceProp.major >= 10) {
-		// Blackwell
-		printf("Optimizing for Blackwell architecture\n");
+		// Blackwell (B100/B80 and future)
+		printf("Optimizing for Blackwell architecture (B100/B80)\n");
 		CudaSafeCall(cudaDeviceSetCacheConfig(cudaFuncCachePreferL1));
 		CudaSafeCall(cudaDeviceSetSharedMemConfig(cudaSharedMemBankSizeEightByte));
 	}
 	else {
 		// Fallback for other architectures
+		printf("Using generic GPU optimization (Compute Capability %d.%d)\n", deviceProp.major, deviceProp.minor);
 		CudaSafeCall(cudaDeviceSetCacheConfig(cudaFuncCachePreferL1));
 	}
 
-	// Increase stack size for newer GPUs
-	size_t stackSize = (deviceProp.major >= 8) ? 65536 : 49152;
+	// Set stack size based on GPU architecture
+	size_t stackSize = 49152;  // Default 48KB
+	if (deviceProp.major == 8) {
+		stackSize = 65536;     // Ampere/Ada: 64KB
+		printf("Stack size: 64KB (Ampere/Ada)\n");
+	}
+	else if (deviceProp.major == 9) {
+		stackSize = 131072;    // Hopper: 128KB
+		printf("Stack size: 128KB (Hopper)\n");
+	}
+	else if (deviceProp.major >= 10) {
+		stackSize = 262144;    // Blackwell: 256KB
+		printf("Stack size: 256KB (Blackwell)\n");
+	}
+	else {
+		printf("Stack size: 48KB (Legacy)\n");
+	}
+	
 	CudaSafeCall(cudaDeviceSetLimit(cudaLimitStackSize, stackSize));
 
 	// Check for unified memory support (compute capability >= 3.0)
@@ -237,19 +270,78 @@ GPUEngine::GPUEngine(int nbThreadGroup, int nbThreadPerGroup, int gpuId, uint32_
 		printf("GPU supports unified memory addressing\n");
 	}
 
+	// Display GPU capabilities
+	printf("\nGPU Capabilities:\n");
+	printf("  Global Memory: %.1f GB\n", (double)deviceProp.totalGlobalMem / 1e9);
+	printf("  Max Threads/Block: %d\n", deviceProp.maxThreadsPerBlock);
+	printf("  Max Grid Size: %d x %d x %d\n", deviceProp.maxGridSize[0], deviceProp.maxGridSize[1], deviceProp.maxGridSize[2]);
+
 	// Allocate memory
-	CudaSafeCall(cudaMalloc((void**)&inputKey, nbThread * 32 * 2));
-	CudaSafeCall(cudaHostAlloc(&inputKeyPinned, nbThread * 32 * 2, cudaHostAllocWriteCombined | cudaHostAllocMapped));
+	printf("\nAllocating GPU memory...\n");
+	
+	cudaError_t err = cudaMalloc((void**)&inputKey, nbThread * 32 * 2);
+	if (err != cudaSuccess) {
+		fprintf(stderr, "ERROR: Failed to allocate inputKey (%s)\n", cudaGetErrorString(err));
+		fprintf(stderr, "Attempted allocation: %lu bytes\n", nbThread * 32 * 2);
+		return;
+	}
+	
+	err = cudaHostAlloc(&inputKeyPinned, nbThread * 32 * 2, cudaHostAllocWriteCombined | cudaHostAllocMapped);
+	if (err != cudaSuccess) {
+		fprintf(stderr, "ERROR: Failed to allocate pinned host memory for inputKey (%s)\n", cudaGetErrorString(err));
+		CudaSafeCall(cudaFree(inputKey));
+		return;
+	}
 
-	CudaSafeCall(cudaMalloc((void**)&outputBuffer, outputSize));
-	CudaSafeCall(cudaHostAlloc(&outputBufferPinned, outputSize, cudaHostAllocWriteCombined | cudaHostAllocMapped));
+	err = cudaMalloc((void**)&outputBuffer, outputSize);
+	if (err != cudaSuccess) {
+		fprintf(stderr, "ERROR: Failed to allocate outputBuffer (%s)\n", cudaGetErrorString(err));
+		fprintf(stderr, "Attempted allocation: %u bytes\n", outputSize);
+		CudaSafeCall(cudaFree(inputKey));
+		CudaSafeCall(cudaFreeHost(inputKeyPinned));
+		return;
+	}
+	
+	err = cudaHostAlloc(&outputBufferPinned, outputSize, cudaHostAllocWriteCombined | cudaHostAllocMapped);
+	if (err != cudaSuccess) {
+		fprintf(stderr, "ERROR: Failed to allocate pinned host memory for outputBuffer (%s)\n", cudaGetErrorString(err));
+		CudaSafeCall(cudaFree(inputKey));
+		CudaSafeCall(cudaFreeHost(inputKeyPinned));
+		CudaSafeCall(cudaFree(outputBuffer));
+		return;
+	}
 
-	CudaSafeCall(cudaMalloc((void**)&inputBloomLookUp, BLOOM_SIZE));
-	CudaSafeCall(cudaHostAlloc(&inputBloomLookUpPinned, BLOOM_SIZE, cudaHostAllocWriteCombined | cudaHostAllocMapped));
+	err = cudaMalloc((void**)&inputBloomLookUp, BLOOM_SIZE);
+	if (err != cudaSuccess) {
+		fprintf(stderr, "ERROR: Failed to allocate Bloom filter (%s)\n", cudaGetErrorString(err));
+		fprintf(stderr, "Attempted allocation: %ld bytes\n", BLOOM_SIZE);
+		CudaSafeCall(cudaFree(inputKey));
+		CudaSafeCall(cudaFreeHost(inputKeyPinned));
+		CudaSafeCall(cudaFree(outputBuffer));
+		CudaSafeCall(cudaFreeHost(outputBufferPinned));
+		return;
+	}
+	
+	err = cudaHostAlloc(&inputBloomLookUpPinned, BLOOM_SIZE, cudaHostAllocWriteCombined | cudaHostAllocMapped);
+	if (err != cudaSuccess) {
+		fprintf(stderr, "ERROR: Failed to allocate pinned host memory for Bloom filter (%s)\n", cudaGetErrorString(err));
+		CudaSafeCall(cudaFree(inputKey));
+		CudaSafeCall(cudaFreeHost(inputKeyPinned));
+		CudaSafeCall(cudaFree(outputBuffer));
+		CudaSafeCall(cudaFreeHost(outputBufferPinned));
+		CudaSafeCall(cudaFree(inputBloomLookUp));
+		return;
+	}
 
 	memcpy(inputBloomLookUpPinned, BLOOM_DATA, BLOOM_SIZE);
 
-	CudaSafeCall(cudaMemcpy(inputBloomLookUp, inputBloomLookUpPinned, BLOOM_SIZE, cudaMemcpyHostToDevice));
+	err = cudaMemcpy(inputBloomLookUp, inputBloomLookUpPinned, BLOOM_SIZE, cudaMemcpyHostToDevice);
+	if (err != cudaSuccess) {
+		fprintf(stderr, "ERROR: Failed to copy Bloom filter to device (%s)\n", cudaGetErrorString(err));
+		CudaSafeCall(cudaFreeHost(inputBloomLookUpPinned));
+		return;
+	}
+	
 	CudaSafeCall(cudaFreeHost(inputBloomLookUpPinned));
 	inputBloomLookUpPinned = NULL;
 
@@ -258,6 +350,8 @@ GPUEngine::GPUEngine(int nbThreadGroup, int nbThreadPerGroup, int gpuId, uint32_
 	searchMode = SEARCH_COMPRESSED;
 	searchType = P2PKH;
 	initialised = true;
+	
+	printf("GPU initialization completed successfully\n\n");
 
 }
 
@@ -296,8 +390,23 @@ void GPUEngine::PrintCudaInfo()
 		int cores = _ConvertSMVer2Cores(deviceProp.major, deviceProp.minor);
 		int totalCores = cores * deviceProp.multiProcessorCount;
 		
+		// Get architecture name
+		const char* archName = "Unknown";
+		if (deviceProp.major == 8 && deviceProp.minor == 9) {
+			archName = "Ada";
+		}
+		else if (deviceProp.major == 8 && deviceProp.minor >= 6) {
+			archName = "Ampere";
+		}
+		else if (deviceProp.major == 9) {
+			archName = "Hopper";
+		}
+		else if (deviceProp.major >= 10) {
+			archName = "Blackwell";
+		}
+		
 		printf("GPU #%d: %s\n", i, deviceProp.name);
-		printf("  Compute Capability: %d.%d\n", deviceProp.major, deviceProp.minor);
+		printf("  Architecture: %s (SM %d.%d)\n", archName, deviceProp.major, deviceProp.minor);
 		printf("  Total Cores: %d (%d MPs x %d cores/MP)\n", totalCores, deviceProp.multiProcessorCount, cores);
 		printf("  Global Memory: %.1f GB\n", (double)deviceProp.totalGlobalMem / 1e9);
 		printf("  Shared Memory/Block: %zu KB\n", deviceProp.sharedMemPerBlock / 1024);

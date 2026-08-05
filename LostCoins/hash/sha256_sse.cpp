@@ -24,7 +24,7 @@ namespace _sha256sse
 {
 
 
-#ifdef WIN64
+#ifdef _WIN32
 static const __declspec(align(16)) uint32_t _init[] = {
 #else
 static const uint32_t _init[] __attribute__((aligned(16))) = {
@@ -566,7 +566,7 @@ void sha256sse_checksum(uint32_t *i0, uint32_t *i1, uint32_t *i2, uint32_t *i3,
     _sha256sse::Initialize(s);
     _sha256sse::Transform2(s, i0, i1, i2, i3);
 
-#ifndef WIN64
+#ifndef _WIN32
     uint32_t *s32 = (uint32_t *)(&s[0]);
     *((uint32_t *)d0) = __builtin_bswap32(s32[3]);
     *((uint32_t *)d1) = __builtin_bswap32(s32[2]);

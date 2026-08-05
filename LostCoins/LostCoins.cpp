@@ -15,16 +15,12 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "sha256.cpp"
+#include "sha256.h"
 #include <sstream>
 #include <stdlib.h>
 #ifdef _WIN32
-// Windows-specific headers for console and platform APIs
 #include <windows.h>
 #include <conio.h>
-#else
-// POSIX thread support for Linux/Unix builds
-#include <pthread.h>
 #endif
 
 #include <vector>
@@ -74,13 +70,11 @@ LostCoins::LostCoins(string addressFile, string seed, string zez, int diz, int s
 	}
 
 #ifdef _WIN32
-	// Use Windows 64-bit file seek/tell functions
 	_fseeki64(wfd, 0, SEEK_END);
 	N = _ftelli64(wfd);
 #else
-	// Use POSIX large-file seek/tell functions
 	fseeko(wfd, 0, SEEK_END);
-	N = ftello(wfd);
+	N = (uint64_t)ftello(wfd);
 #endif
 	N = N / 20;
 	rewind(wfd);
@@ -182,8 +176,7 @@ LostCoins::LostCoins(string addressFile, string seed, string zez, int diz, int s
 		this->rangeDiff2.Sub(&this->rangeStart1);
 		this->rangeDiff3.Set(&this->rangeEnd1);
 
-		// Use GetBitLength() to get the integer length of the range difference
-		int gaz2 = rangeDiff2.GetBitLength();
+		// (range diff decimal value is computed above for display only)
 
 		printf("\n  Random mode : %.0f \n  Random      : Finding in a ranges \n", (double)rekey);
 		printf("  Global start: %064s (%d bit)\n", this->rangeStart1.GetBase16().c_str(), this->rangeStart1.GetBitLength());
@@ -286,23 +279,23 @@ LostCoins::LostCoins(string addressFile, string seed, string zez, int diz, int s
 	}
 	if (rekey == 15) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 33 letters (russian) \n  List        : �������������������������������� \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 33 letters (russian) \n  List        : \xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 16) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 33 letters (russian) \n  List        : �����Ũ�������������������������� \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 33 letters (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 17) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 66 letters (russian) \n  List        : �����Ũ���������������������������������������������������������� \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 66 letters (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 18) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 76 symbols (russian) \n  List        : �����Ũ����������������������������������������������������������0123456789 \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 76 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789 \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 19) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 107 symbols (russian) \n  List        : �����Ũ����������������������������������������������������������0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 107 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 20) {
 		setlocale(LC_ALL, "Russian");
@@ -338,23 +331,23 @@ LostCoins::LostCoins(string addressFile, string seed, string zez, int diz, int s
 	}
 	if (rekey == 28) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 33 letters (russian) \n  List        : �������������������������������� \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 33 letters (russian) \n  List        : \xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 29) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 33 letters (russian) \n  List        : �����Ũ�������������������������� \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 33 letters (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 30) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 66 letters (russian) \n  List        : �����Ũ���������������������������������������������������������� \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 66 letters (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 31) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 76 symbols (russian) \n  List        : �����Ũ����������������������������������������������������������0123456789 \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n   Donate     : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 76 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789 \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n   Donate     : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 32) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 106 symbols (russian) \n  List        : �����Ũ����������������������������������������������������������0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 106 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 33) {
 		setlocale(LC_ALL, "Russian");
@@ -390,23 +383,23 @@ LostCoins::LostCoins(string addressFile, string seed, string zez, int diz, int s
 	}
 	if (rekey == 41) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 33 letters (russian) \n  List        : �������������������������������� \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 33 letters (russian) \n  List        : \xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 42) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 33 letters (russian) \n  List        : �����Ũ�������������������������� \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 33 letters (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 43) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 66 letters (russian) \n  List        : �����Ũ���������������������������������������������������������� \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 66 letters (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 44) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 76 symbols (russian) \n  List        : �����Ũ����������������������������������������������������������0123456789 \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate     : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 76 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789 \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate     : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 45) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 107 symbols (russian) \n  List        : �����Ũ����������������������������������������������������������0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 107 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 46) {
 		setlocale(LC_ALL, "Russian");
@@ -531,7 +524,6 @@ void LostCoins::output(string addr, string pAddr, string pAddrHex)
 
 	}
 #ifdef _WIN32
-	// Use Windows console API to set text color for highlighted output
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 #endif
@@ -18863,25 +18855,25 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 
 		int N = nbit;
 		char str[]{ "0123456789abcdef" };
-		int strN = 16; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 16; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 
 		int N2 = maxFound;
 		char str2[]{ "0123456789abcdef" };
-		int strN2 = 16; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+		int strN2 = 16; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N2; i++)
 		{
-			pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+			pass2[i] = str2[rand() % strN2]; //insert a random character
 		}
-		pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+		pass2[N2] = 0; //write null terminator at the end of the string
 
 
 		std::stringstream ss;
@@ -27642,14 +27634,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 7) {
 		int N = nbit;
 		char str[]{ "0123456789" };
-		int strN = 10; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 10; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		string input = pass;
 		string nos = sha256(input);
 		char* cstr = &nos[0];
@@ -27665,14 +27657,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 8) {
 		int N = nbit;
 		char str[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		string input = pass;
 		string nos = sha256(input);
 		char* cstr = &nos[0];
@@ -27688,14 +27680,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 9) {
 		int N = nbit;
 		char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-		int strN = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		string input = pass;
 		string nos = sha256(input);
 		char* cstr = &nos[0];
@@ -27711,14 +27703,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 10) {
 		int N = nbit;
 		char str[]{ "abcdefghijklmnopqrstuvwxyz0123456789" };
-		int strN = 36; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 36; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		string input = pass;
 		string nos = sha256(input);
 		char* cstr = &nos[0];
@@ -27734,14 +27726,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 11) {
 		int N = nbit;
 		char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" };
-		int strN = 36; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 36; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		string input = pass;
 		string nos = sha256(input);
 		char* cstr = &nos[0];
@@ -27757,14 +27749,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 12) {
 		int N = nbit;
 		char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" };
-		int strN = 52; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 52; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		string input = pass;
 		string nos = sha256(input);
 		char* cstr = &nos[0];
@@ -27780,14 +27772,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 13) {
 		int N = nbit;
 		char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" };
-		int strN = 62; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 62; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		string input = pass;
 		string nos = sha256(input);
 		char* cstr = &nos[0];
@@ -27803,14 +27795,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 14) {
 		int N = nbit;
 		char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
-		int strN = 93; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 93; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		string input = pass;
 		string nos = sha256(input);
 		char* cstr = &nos[0];
@@ -27826,15 +27818,15 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 15) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "��������������������������������" };
-		int strN = 33; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		char str[]{ "\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" };
+		int strN = 33; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		string input = pass;
 		string nos = sha256(input);
 		char* cstr = &nos[0];
@@ -27850,15 +27842,15 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 16) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "�����Ũ��������������������������" };
-		int strN = 33; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf" };
+		int strN = 33; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		string input = pass;
 		string nos = sha256(input);
 		char* cstr = &nos[0];
@@ -27874,15 +27866,15 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 17) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "�����Ũ����������������������������������������������������������" };
-		int strN = 66; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" };
+		int strN = 66; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		string input = pass;
 		string nos = sha256(input);
 		char* cstr = &nos[0];
@@ -27898,15 +27890,15 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 18) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "�����Ũ����������������������������������������������������������0123456789" };
-		int strN = 76; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789" };
+		int strN = 76; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		string input = pass;
 		string nos = sha256(input);
 		char* cstr = &nos[0];
@@ -27922,15 +27914,15 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 19) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "�����Ũ����������������������������������������������������������0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
-		int strN = 107; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+		int strN = 107; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		string input = pass;
 		string nos = sha256(input);
 		char* cstr = &nos[0];
@@ -27946,14 +27938,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 20) {
 		int N = nbit;
 		char str[]{ "0123456789" };
-		int strN = 10; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 10; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 
 		std::stringstream ss;
 		ss << seed << pass;
@@ -27972,14 +27964,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 21) {
 		int N = nbit;
 		char str[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 
 		std::stringstream ss;
 		ss << seed << pass;
@@ -27998,14 +27990,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 22) {
 		int N = nbit;
 		char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-		int strN = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 
 		std::stringstream ss;
 		ss << seed << pass;
@@ -28024,14 +28016,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 23) {
 		int N = nbit;
 		char str[]{ "abcdefghijklmnopqrstuvwxyz0123456789" };
-		int strN = 36; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 36; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << pass;
 		std::string input = ss.str();
@@ -28049,14 +28041,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 24) {
 		int N = nbit;
 		char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" };
-		int strN = 36; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 36; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << pass;
 		std::string input = ss.str();
@@ -28074,14 +28066,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 25) {
 		int N = nbit;
 		char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" };
-		int strN = 52; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 52; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << pass;
 		std::string input = ss.str();
@@ -28099,14 +28091,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 26) {
 		int N = nbit;
 		char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" };
-		int strN = 62; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 62; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << pass;
 		std::string input = ss.str();
@@ -28124,14 +28116,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 27) {
 		int N = nbit;
 		char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
-		int strN = 92; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 92; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << pass;
 		std::string input = ss.str();
@@ -28149,15 +28141,15 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 28) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "��������������������������������" };
-		int strN = 33; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		char str[]{ "\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" };
+		int strN = 33; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << pass;
 		std::string input = ss.str();
@@ -28175,15 +28167,15 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 29) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "�����Ũ��������������������������" };
-		int strN = 33; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf" };
+		int strN = 33; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << pass;
 		std::string input = ss.str();
@@ -28201,15 +28193,15 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 30) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "�����Ũ����������������������������������������������������������" };
-		int strN = 66; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" };
+		int strN = 66; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << pass;
 		std::string input = ss.str();
@@ -28227,15 +28219,15 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 31) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "�����Ũ����������������������������������������������������������0123456789" };
-		int strN = 76; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789" };
+		int strN = 76; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << pass;
 		std::string input = ss.str();
@@ -28253,13 +28245,13 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 32) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "�����Ũ����������������������������������������������������������0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
-		int strN = 106; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+		int strN = 106; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
 		std::stringstream ss;
 		ss << seed << pass;
@@ -28278,14 +28270,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 33) {
 		int N = nbit;
 		char str[]{ "0123456789" };
-		int strN = 10; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 10; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << " " << pass;
 		std::string input = ss.str();
@@ -28303,14 +28295,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 34) {
 		int N = nbit;
 		char str[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << " " << pass;
 		std::string input = ss.str();
@@ -28328,14 +28320,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 35) {
 		int N = nbit;
 		char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-		int strN = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << " " << pass;
 		std::string input = ss.str();
@@ -28353,14 +28345,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 36) {
 		int N = nbit;
 		char str[]{ "abcdefghijklmnopqrstuvwxyz0123456789" };
-		int strN = 36; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 36; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << " " << pass;
 		std::string input = ss.str();
@@ -28378,14 +28370,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 37) {
 		int N = nbit;
 		char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" };
-		int strN = 36; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 36; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << " " << pass;
 		std::string input = ss.str();
@@ -28403,14 +28395,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 38) {
 		int N = nbit;
 		char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" };
-		int strN = 52; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 52; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << " " << pass;
 		std::string input = ss.str();
@@ -28428,14 +28420,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 39) {
 		int N = nbit;
 		char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" };
-		int strN = 62; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 62; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << " " << pass;
 		std::string input = ss.str();
@@ -28453,14 +28445,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 40) {
 		int N = nbit;
 		char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
-		int strN = 93; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 93; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << " " << pass;
 		std::string input = ss.str();
@@ -28478,15 +28470,15 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 41) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "��������������������������������" };
-		int strN = 33; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		char str[]{ "\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" };
+		int strN = 33; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << " " << pass;
 		std::string input = ss.str();
@@ -28504,15 +28496,15 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 42) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "�����Ũ��������������������������" };
-		int strN = 33; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf" };
+		int strN = 33; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << " " << pass;
 		std::string input = ss.str();
@@ -28530,15 +28522,15 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 43) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "�����Ũ����������������������������������������������������������" };
-		int strN = 66; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" };
+		int strN = 66; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << " " << pass;
 		std::string input = ss.str();
@@ -28556,15 +28548,15 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 44) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "�����Ũ����������������������������������������������������������0123456789" };
-		int strN = 76; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789" };
+		int strN = 76; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << seed << " " << pass;
 		std::string input = ss.str();
@@ -28582,13 +28574,13 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 45) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "�����Ũ����������������������������������������������������������0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
-		int strN = 107; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+		int strN = 107; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
 		std::stringstream ss;
 		ss << seed << " " << pass;
@@ -28607,36 +28599,36 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 46) {
 		int N = 2;
 		char str[]{ "0123456789" };
-		int strN = 10; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 10; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 
 		int N2 = nbit;
 		char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN2 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+		int strN2 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N2; i++)
 		{
-			pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+			pass2[i] = str2[rand() % strN2]; //insert a random character
 		}
-		pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+		pass2[N2] = 0; //write null terminator at the end of the string
 
 		int N3 = 1;
 		char str3[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-		int strN3 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass3 = new char[N3 + 1]; //�������� ������ ��� ������ ������
+		int strN3 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass3 = new char[N3 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N3; i++)
 		{
-			pass3[i] = str3[rand() % strN3]; //��������� ��������� ������
+			pass3[i] = str3[rand() % strN3]; //insert a random character
 		}
-		pass3[N3] = 0; //���������� � ����� ������ ������� ����� ������
+		pass3[N3] = 0; //write null terminator at the end of the string
 
 		std::stringstream ss;
 		ss << pass3 << pass2 << pass;
@@ -28655,36 +28647,36 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 47) {
 		int N = 4;
 		char str[]{ "0123456789" };
-		int strN = 10; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 10; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 
 		int N2 = nbit;
 		char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN2 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+		int strN2 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N2; i++)
 		{
-			pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+			pass2[i] = str2[rand() % strN2]; //insert a random character
 		}
-		pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+		pass2[N2] = 0; //write null terminator at the end of the string
 
 		int N3 = 1;
 		char str3[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-		int strN3 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass3 = new char[N3 + 1]; //�������� ������ ��� ������ ������
+		int strN3 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass3 = new char[N3 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N3; i++)
 		{
-			pass3[i] = str3[rand() % strN3]; //��������� ��������� ������
+			pass3[i] = str3[rand() % strN3]; //insert a random character
 		}
-		pass3[N3] = 0; //���������� � ����� ������ ������� ����� ������
+		pass3[N3] = 0; //write null terminator at the end of the string
 
 		std::stringstream ss;
 		ss << pass3 << pass2 << pass;
@@ -28703,36 +28695,36 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 48) {
 		int N = 6;
 		char str[]{ "0123456789" };
-		int strN = 10; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 10; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 
 		int N2 = nbit;
 		char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN2 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+		int strN2 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N2; i++)
 		{
-			pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+			pass2[i] = str2[rand() % strN2]; //insert a random character
 		}
-		pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+		pass2[N2] = 0; //write null terminator at the end of the string
 
 		int N3 = 1;
 		char str3[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-		int strN3 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass3 = new char[N3 + 1]; //�������� ������ ��� ������ ������
+		int strN3 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass3 = new char[N3 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N3; i++)
 		{
-			pass3[i] = str3[rand() % strN3]; //��������� ��������� ������
+			pass3[i] = str3[rand() % strN3]; //insert a random character
 		}
-		pass3[N3] = 0; //���������� � ����� ������ ������� ����� ������
+		pass3[N3] = 0; //write null terminator at the end of the string
 
 		std::stringstream ss;
 		ss << pass3 << pass2 << pass;
@@ -28752,25 +28744,25 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 49) {
 		int N2 = rand() % 7 + 3;
 		char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN2 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+		int strN2 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N2; i++)
 		{
-			pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+			pass2[i] = str2[rand() % strN2]; //insert a random character
 		}
-		pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+		pass2[N2] = 0; //write null terminator at the end of the string
 
 		int N4 = 3 + rand() % 6;
 		char str4[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN4 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass4 = new char[N4 + 1]; //�������� ������ ��� ������ ������
+		int strN4 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass4 = new char[N4 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N4; i++)
 		{
-			pass4[i] = str4[rand() % strN4]; //��������� ��������� ������
+			pass4[i] = str4[rand() % strN4]; //insert a random character
 		}
-		pass4[N4] = 0; //���������� � ����� ������ ������� ����� ������
+		pass4[N4] = 0; //write null terminator at the end of the string
 
 		std::stringstream ss;
 		ss << pass2 << " " << pass4;
@@ -28789,24 +28781,24 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 50) {
 		int N2 = 3 + rand() % 7;
 		char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN2 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+		int strN2 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N2; i++)
 		{
-			pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+			pass2[i] = str2[rand() % strN2]; //insert a random character
 		}
-		pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+		pass2[N2] = 0; //write null terminator at the end of the string
 		int N4 = 3 + rand() % 6;
 		char str4[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN4 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass4 = new char[N4 + 1]; //�������� ������ ��� ������ ������
+		int strN4 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass4 = new char[N4 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N4; i++)
 		{
-			pass4[i] = str4[rand() % strN4]; //��������� ��������� ������
+			pass4[i] = str4[rand() % strN4]; //insert a random character
 		}
-		pass4[N4] = 0; //���������� � ����� ������ ������� ����� ������
+		pass4[N4] = 0; //write null terminator at the end of the string
 
 		std::stringstream ss;
 		ss << seed << " " << pass2 << " " << pass4;
@@ -28826,136 +28818,136 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 51) {
 		int N = 3 + rand() % 3;
 		char str[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 
 		int N1 = 3 + rand() % 3;
 		char str1[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN1 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass1 = new char[N1 + 1]; //�������� ������ ��� ������ ������
+		int strN1 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass1 = new char[N1 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N1; i++)
 		{
-			pass1[i] = str1[rand() % strN1]; //��������� ��������� ������
+			pass1[i] = str1[rand() % strN1]; //insert a random character
 		}
-		pass1[N1] = 0; //���������� � ����� ������ ������� ����� ������
+		pass1[N1] = 0; //write null terminator at the end of the string
 
 		int N2 = 3 + rand() % 3;
 		char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN2 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+		int strN2 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N2; i++)
 		{
-			pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+			pass2[i] = str2[rand() % strN2]; //insert a random character
 		}
-		pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+		pass2[N2] = 0; //write null terminator at the end of the string
 
 
 		int N3 = 3 + rand() % 3;
 		char str3[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN3 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass3 = new char[N3 + 1]; //�������� ������ ��� ������ ������
+		int strN3 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass3 = new char[N3 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N3; i++)
 		{
-			pass3[i] = str3[rand() % strN3]; //��������� ��������� ������
+			pass3[i] = str3[rand() % strN3]; //insert a random character
 		}
-		pass3[N3] = 0; //���������� � ����� ������ ������� ����� ������
+		pass3[N3] = 0; //write null terminator at the end of the string
 
 		int N4 = 3 + rand() % 3;
 		char str4[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN4 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass4 = new char[N4 + 1]; //�������� ������ ��� ������ ������
+		int strN4 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass4 = new char[N4 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N4; i++)
 		{
-			pass4[i] = str4[rand() % strN4]; //��������� ��������� ������
+			pass4[i] = str4[rand() % strN4]; //insert a random character
 		}
-		pass4[N4] = 0; //���������� � ����� ������ ������� ����� ������
+		pass4[N4] = 0; //write null terminator at the end of the string
 
 
 		int N5 = 3 + rand() % 3;
 		char str5[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN5 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass5 = new char[N5 + 1]; //�������� ������ ��� ������ ������
+		int strN5 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass5 = new char[N5 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N5; i++)
 		{
-			pass5[i] = str5[rand() % strN5]; //��������� ��������� ������
+			pass5[i] = str5[rand() % strN5]; //insert a random character
 		}
-		pass5[N5] = 0; //���������� � ����� ������ ������� ����� ������
+		pass5[N5] = 0; //write null terminator at the end of the string
 
 		int N6 = 3 + rand() % 3;
 		char str6[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN6 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass6 = new char[N6 + 1]; //�������� ������ ��� ������ ������
+		int strN6 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass6 = new char[N6 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N6; i++)
 		{
-			pass6[i] = str6[rand() % strN6]; //��������� ��������� ������
+			pass6[i] = str6[rand() % strN6]; //insert a random character
 		}
-		pass6[N6] = 0; //���������� � ����� ������ ������� ����� ������
+		pass6[N6] = 0; //write null terminator at the end of the string
 		int N7 = 3 + rand() % 3;
 		char str7[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN7 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass7 = new char[N7 + 1]; //�������� ������ ��� ������ ������
+		int strN7 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass7 = new char[N7 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N7; i++)
 		{
-			pass7[i] = str7[rand() % strN7]; //��������� ��������� ������
+			pass7[i] = str7[rand() % strN7]; //insert a random character
 		}
-		pass7[N7] = 0; //���������� � ����� ������ ������� ����� ������
+		pass7[N7] = 0; //write null terminator at the end of the string
 
 		int N8 = 3 + rand() % 3;
 		char str8[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN8 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass8 = new char[N8 + 1]; //�������� ������ ��� ������ ������
+		int strN8 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass8 = new char[N8 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N8; i++)
 		{
-			pass8[i] = str8[rand() % strN8]; //��������� ��������� ������
+			pass8[i] = str8[rand() % strN8]; //insert a random character
 		}
-		pass8[N8] = 0; //���������� � ����� ������ ������� ����� ������
+		pass8[N8] = 0; //write null terminator at the end of the string
 
 		int N9 = 3 + rand() % 3;
 		char str9[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN9 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass9 = new char[N9 + 1]; //�������� ������ ��� ������ ������
+		int strN9 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass9 = new char[N9 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N9; i++)
 		{
-			pass9[i] = str9[rand() % strN9]; //��������� ��������� ������
+			pass9[i] = str9[rand() % strN9]; //insert a random character
 		}
-		pass9[N9] = 0; //���������� � ����� ������ ������� ����� ������
+		pass9[N9] = 0; //write null terminator at the end of the string
 
 		int N10 = 3 + rand() % 3;
 		char str10[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN10 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass10 = new char[N10 + 1]; //�������� ������ ��� ������ ������
+		int strN10 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass10 = new char[N10 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N10; i++)
 		{
-			pass10[i] = str10[rand() % strN10]; //��������� ��������� ������
+			pass10[i] = str10[rand() % strN10]; //insert a random character
 		}
-		pass10[N10] = 0; //���������� � ����� ������ ������� ����� ������
+		pass10[N10] = 0; //write null terminator at the end of the string
 
 		int N11 = 3 + rand() % 3;
 		char str11[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN11 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass11 = new char[N11 + 1]; //�������� ������ ��� ������ ������
+		int strN11 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass11 = new char[N11 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N11; i++)
 		{
-			pass11[i] = str11[rand() % strN11]; //��������� ��������� ������
+			pass11[i] = str11[rand() % strN11]; //insert a random character
 		}
-		pass11[N11] = 0; //���������� � ����� ������ ������� ����� ������
+		pass11[N11] = 0; //write null terminator at the end of the string
 
 		std::stringstream ss;
 		ss << pass << " " << pass1 << " " << pass2 << " " << pass3 << " " << pass4 << " " << pass5 << " " << pass6 << " " << pass7 << " " << pass8 << " " << pass9 << " " << pass10 << " " << pass11;
@@ -28975,138 +28967,138 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 52) {
 		int N = 3 + rand() % 5;
 		char str[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 
 		int N1 = 3 + rand() % 5;
 		char str1[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN1 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass1 = new char[N1 + 1]; //�������� ������ ��� ������ ������
+		int strN1 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass1 = new char[N1 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N1; i++)
 		{
-			pass1[i] = str1[rand() % strN1]; //��������� ��������� ������
+			pass1[i] = str1[rand() % strN1]; //insert a random character
 		}
-		pass1[N1] = 0; //���������� � ����� ������ ������� ����� ������
+		pass1[N1] = 0; //write null terminator at the end of the string
 
 		int N2 = 3 + rand() % 5;
 		char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN2 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+		int strN2 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N2; i++)
 		{
-			pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+			pass2[i] = str2[rand() % strN2]; //insert a random character
 		}
-		pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+		pass2[N2] = 0; //write null terminator at the end of the string
 
 
 		int N3 = 3 + rand() % 5;
 		char str3[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN3 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass3 = new char[N3 + 1]; //�������� ������ ��� ������ ������
+		int strN3 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass3 = new char[N3 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N3; i++)
 		{
-			pass3[i] = str3[rand() % strN3]; //��������� ��������� ������
+			pass3[i] = str3[rand() % strN3]; //insert a random character
 		}
-		pass3[N3] = 0; //���������� � ����� ������ ������� ����� ������
+		pass3[N3] = 0; //write null terminator at the end of the string
 
 		int N4 = 3 + rand() % 5;
 		char str4[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN4 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass4 = new char[N4 + 1]; //�������� ������ ��� ������ ������
+		int strN4 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass4 = new char[N4 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N4; i++)
 		{
-			pass4[i] = str4[rand() % strN4]; //��������� ��������� ������
+			pass4[i] = str4[rand() % strN4]; //insert a random character
 		}
-		pass4[N4] = 0; //���������� � ����� ������ ������� ����� ������
+		pass4[N4] = 0; //write null terminator at the end of the string
 
 
 		int N5 = 3 + rand() % 5;
 		char str5[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN5 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass5 = new char[N5 + 1]; //�������� ������ ��� ������ ������
+		int strN5 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass5 = new char[N5 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N5; i++)
 		{
-			pass5[i] = str5[rand() % strN5]; //��������� ��������� ������
+			pass5[i] = str5[rand() % strN5]; //insert a random character
 		}
-		pass5[N5] = 0; //���������� � ����� ������ ������� ����� ������
+		pass5[N5] = 0; //write null terminator at the end of the string
 
 		int N6 = 3 + rand() % 5;
 		char str6[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN6 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass6 = new char[N6 + 1]; //�������� ������ ��� ������ ������
+		int strN6 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass6 = new char[N6 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N6; i++)
 		{
-			pass6[i] = str6[rand() % strN6]; //��������� ��������� ������
+			pass6[i] = str6[rand() % strN6]; //insert a random character
 		}
-		pass6[N6] = 0; //���������� � ����� ������ ������� ����� ������
+		pass6[N6] = 0; //write null terminator at the end of the string
 
 
 		int N7 = 3 + rand() % 5;
 		char str7[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN7 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass7 = new char[N7 + 1]; //�������� ������ ��� ������ ������
+		int strN7 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass7 = new char[N7 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N7; i++)
 		{
-			pass7[i] = str7[rand() % strN7]; //��������� ��������� ������
+			pass7[i] = str7[rand() % strN7]; //insert a random character
 		}
-		pass7[N7] = 0; //���������� � ����� ������ ������� ����� ������
+		pass7[N7] = 0; //write null terminator at the end of the string
 
 		int N8 = 3 + rand() % 5;
 		char str8[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN8 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass8 = new char[N8 + 1]; //�������� ������ ��� ������ ������
+		int strN8 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass8 = new char[N8 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N8; i++)
 		{
-			pass8[i] = str8[rand() % strN8]; //��������� ��������� ������
+			pass8[i] = str8[rand() % strN8]; //insert a random character
 		}
-		pass8[N8] = 0; //���������� � ����� ������ ������� ����� ������
+		pass8[N8] = 0; //write null terminator at the end of the string
 
 		int N9 = 3 + rand() % 5;
 		char str9[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN9 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass9 = new char[N9 + 1]; //�������� ������ ��� ������ ������
+		int strN9 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass9 = new char[N9 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N9; i++)
 		{
-			pass9[i] = str9[rand() % strN9]; //��������� ��������� ������
+			pass9[i] = str9[rand() % strN9]; //insert a random character
 		}
-		pass9[N9] = 0; //���������� � ����� ������ ������� ����� ������
+		pass9[N9] = 0; //write null terminator at the end of the string
 
 		int N10 = 3 + rand() % 5;
 		char str10[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN10 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass10 = new char[N10 + 1]; //�������� ������ ��� ������ ������
+		int strN10 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass10 = new char[N10 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N10; i++)
 		{
-			pass10[i] = str10[rand() % strN10]; //��������� ��������� ������
+			pass10[i] = str10[rand() % strN10]; //insert a random character
 		}
-		pass10[N10] = 0; //���������� � ����� ������ ������� ����� ������
+		pass10[N10] = 0; //write null terminator at the end of the string
 
 		int N11 = 3 + rand() % 5;
 		char str11[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN11 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass11 = new char[N11 + 1]; //�������� ������ ��� ������ ������
+		int strN11 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass11 = new char[N11 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N11; i++)
 		{
-			pass11[i] = str11[rand() % strN11]; //��������� ��������� ������
+			pass11[i] = str11[rand() % strN11]; //insert a random character
 		}
-		pass11[N11] = 0; //���������� � ����� ������ ������� ����� ������
+		pass11[N11] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << pass << " " << pass1 << " " << pass2 << " " << pass3 << " " << pass4 << " " << pass5 << " " << pass6 << " " << pass7 << " " << pass8 << " " << pass9 << " " << pass10 << " " << pass11;
 		std::string input = ss.str();
@@ -29124,137 +29116,137 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 53) {
 		int N = 3 + rand() % 8;
 		char str[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 
 		int N1 = 3 + rand() % 8;
 		char str1[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN1 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass1 = new char[N1 + 1]; //�������� ������ ��� ������ ������
+		int strN1 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass1 = new char[N1 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N1; i++)
 		{
-			pass1[i] = str1[rand() % strN1]; //��������� ��������� ������
+			pass1[i] = str1[rand() % strN1]; //insert a random character
 		}
-		pass1[N1] = 0; //���������� � ����� ������ ������� ����� ������
+		pass1[N1] = 0; //write null terminator at the end of the string
 
 		int N2 = 3 + rand() % 8;
 		char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN2 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+		int strN2 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N2; i++)
 		{
-			pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+			pass2[i] = str2[rand() % strN2]; //insert a random character
 		}
-		pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+		pass2[N2] = 0; //write null terminator at the end of the string
 
 		int N3 = 3 + rand() % 8;
 		char str3[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN3 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass3 = new char[N3 + 1]; //�������� ������ ��� ������ ������
+		int strN3 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass3 = new char[N3 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N3; i++)
 		{
-			pass3[i] = str3[rand() % strN3]; //��������� ��������� ������
+			pass3[i] = str3[rand() % strN3]; //insert a random character
 		}
-		pass3[N3] = 0; //���������� � ����� ������ ������� ����� ������
+		pass3[N3] = 0; //write null terminator at the end of the string
 
 		int N4 = 3 + rand() % 8;
 		char str4[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN4 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass4 = new char[N4 + 1]; //�������� ������ ��� ������ ������
+		int strN4 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass4 = new char[N4 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N4; i++)
 		{
-			pass4[i] = str4[rand() % strN4]; //��������� ��������� ������
+			pass4[i] = str4[rand() % strN4]; //insert a random character
 		}
-		pass4[N4] = 0; //���������� � ����� ������ ������� ����� ������
+		pass4[N4] = 0; //write null terminator at the end of the string
 
 
 		int N5 = 3 + rand() % 8;
 		char str5[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN5 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass5 = new char[N5 + 1]; //�������� ������ ��� ������ ������
+		int strN5 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass5 = new char[N5 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N5; i++)
 		{
-			pass5[i] = str5[rand() % strN5]; //��������� ��������� ������
+			pass5[i] = str5[rand() % strN5]; //insert a random character
 		}
-		pass5[N5] = 0; //���������� � ����� ������ ������� ����� ������
+		pass5[N5] = 0; //write null terminator at the end of the string
 
 		int N6 = 3 + rand() % 8;
 		char str6[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN6 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass6 = new char[N6 + 1]; //�������� ������ ��� ������ ������
+		int strN6 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass6 = new char[N6 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N6; i++)
 		{
-			pass6[i] = str6[rand() % strN6]; //��������� ��������� ������
+			pass6[i] = str6[rand() % strN6]; //insert a random character
 		}
-		pass6[N6] = 0; //���������� � ����� ������ ������� ����� ������
+		pass6[N6] = 0; //write null terminator at the end of the string
 
 
 		int N7 = 3 + rand() % 8;
 		char str7[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN7 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass7 = new char[N7 + 1]; //�������� ������ ��� ������ ������
+		int strN7 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass7 = new char[N7 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N7; i++)
 		{
-			pass7[i] = str7[rand() % strN7]; //��������� ��������� ������
+			pass7[i] = str7[rand() % strN7]; //insert a random character
 		}
-		pass7[N7] = 0; //���������� � ����� ������ ������� ����� ������
+		pass7[N7] = 0; //write null terminator at the end of the string
 
 		int N8 = 3 + rand() % 8;
 		char str8[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN8 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass8 = new char[N8 + 1]; //�������� ������ ��� ������ ������
+		int strN8 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass8 = new char[N8 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N8; i++)
 		{
-			pass8[i] = str8[rand() % strN8]; //��������� ��������� ������
+			pass8[i] = str8[rand() % strN8]; //insert a random character
 		}
-		pass8[N8] = 0; //���������� � ����� ������ ������� ����� ������
+		pass8[N8] = 0; //write null terminator at the end of the string
 
 		int N9 = 3 + rand() % 8;
 		char str9[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN9 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass9 = new char[N9 + 1]; //�������� ������ ��� ������ ������
+		int strN9 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass9 = new char[N9 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N9; i++)
 		{
-			pass9[i] = str9[rand() % strN9]; //��������� ��������� ������
+			pass9[i] = str9[rand() % strN9]; //insert a random character
 		}
-		pass9[N9] = 0; //���������� � ����� ������ ������� ����� ������
+		pass9[N9] = 0; //write null terminator at the end of the string
 
 		int N10 = 3 + rand() % 8;
 		char str10[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN10 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass10 = new char[N10 + 1]; //�������� ������ ��� ������ ������
+		int strN10 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass10 = new char[N10 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N10; i++)
 		{
-			pass10[i] = str10[rand() % strN10]; //��������� ��������� ������
+			pass10[i] = str10[rand() % strN10]; //insert a random character
 		}
-		pass10[N10] = 0; //���������� � ����� ������ ������� ����� ������
+		pass10[N10] = 0; //write null terminator at the end of the string
 
 		int N11 = 3 + rand() % 8;
 		char str11[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN11 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass11 = new char[N11 + 1]; //�������� ������ ��� ������ ������
+		int strN11 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass11 = new char[N11 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N11; i++)
 		{
-			pass11[i] = str11[rand() % strN11]; //��������� ��������� ������
+			pass11[i] = str11[rand() % strN11]; //insert a random character
 		}
-		pass11[N11] = 0; //���������� � ����� ������ ������� ����� ������
+		pass11[N11] = 0; //write null terminator at the end of the string
 
 		std::stringstream ss;
 		ss << pass << " " << pass1 << " " << pass2 << " " << pass3 << " " << pass4 << " " << pass5 << " " << pass6 << " " << pass7 << " " << pass8 << " " << pass9 << " " << pass10 << " " << pass11;
@@ -29274,138 +29266,138 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 54) {
 		int N = 3 + rand() % 10;
 		char str[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 
 		int N1 = 3 + rand() % 10;
 		char str1[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN1 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass1 = new char[N1 + 1]; //�������� ������ ��� ������ ������
+		int strN1 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass1 = new char[N1 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N1; i++)
 		{
-			pass1[i] = str1[rand() % strN1]; //��������� ��������� ������
+			pass1[i] = str1[rand() % strN1]; //insert a random character
 		}
-		pass1[N1] = 0; //���������� � ����� ������ ������� ����� ������
+		pass1[N1] = 0; //write null terminator at the end of the string
 
 		int N2 = 3 + rand() % 10;
 		char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN2 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+		int strN2 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N2; i++)
 		{
-			pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+			pass2[i] = str2[rand() % strN2]; //insert a random character
 		}
-		pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+		pass2[N2] = 0; //write null terminator at the end of the string
 
 
 		int N3 = 3 + rand() % 10;
 		char str3[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN3 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass3 = new char[N3 + 1]; //�������� ������ ��� ������ ������
+		int strN3 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass3 = new char[N3 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N3; i++)
 		{
-			pass3[i] = str3[rand() % strN3]; //��������� ��������� ������
+			pass3[i] = str3[rand() % strN3]; //insert a random character
 		}
-		pass3[N3] = 0; //���������� � ����� ������ ������� ����� ������
+		pass3[N3] = 0; //write null terminator at the end of the string
 
 		int N4 = 3 + rand() % 10;
 		char str4[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN4 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass4 = new char[N4 + 1]; //�������� ������ ��� ������ ������
+		int strN4 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass4 = new char[N4 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N4; i++)
 		{
-			pass4[i] = str4[rand() % strN4]; //��������� ��������� ������
+			pass4[i] = str4[rand() % strN4]; //insert a random character
 		}
-		pass4[N4] = 0; //���������� � ����� ������ ������� ����� ������
+		pass4[N4] = 0; //write null terminator at the end of the string
 
 
 		int N5 = 3 + rand() % 10;
 		char str5[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN5 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass5 = new char[N5 + 1]; //�������� ������ ��� ������ ������
+		int strN5 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass5 = new char[N5 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N5; i++)
 		{
-			pass5[i] = str5[rand() % strN5]; //��������� ��������� ������
+			pass5[i] = str5[rand() % strN5]; //insert a random character
 		}
-		pass5[N5] = 0; //���������� � ����� ������ ������� ����� ������
+		pass5[N5] = 0; //write null terminator at the end of the string
 
 		int N6 = 3 + rand() % 10;
 		char str6[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN6 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass6 = new char[N6 + 1]; //�������� ������ ��� ������ ������
+		int strN6 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass6 = new char[N6 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N6; i++)
 		{
-			pass6[i] = str6[rand() % strN6]; //��������� ��������� ������
+			pass6[i] = str6[rand() % strN6]; //insert a random character
 		}
-		pass6[N6] = 0; //���������� � ����� ������ ������� ����� ������
+		pass6[N6] = 0; //write null terminator at the end of the string
 
 
 		int N7 = 3 + rand() % 10;
 		char str7[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN7 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass7 = new char[N7 + 1]; //�������� ������ ��� ������ ������
+		int strN7 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass7 = new char[N7 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N7; i++)
 		{
-			pass7[i] = str7[rand() % strN7]; //��������� ��������� ������
+			pass7[i] = str7[rand() % strN7]; //insert a random character
 		}
-		pass7[N7] = 0; //���������� � ����� ������ ������� ����� ������
+		pass7[N7] = 0; //write null terminator at the end of the string
 
 		int N8 = 3 + rand() % 10;
 		char str8[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN8 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass8 = new char[N8 + 1]; //�������� ������ ��� ������ ������
+		int strN8 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass8 = new char[N8 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N8; i++)
 		{
-			pass8[i] = str8[rand() % strN8]; //��������� ��������� ������
+			pass8[i] = str8[rand() % strN8]; //insert a random character
 		}
-		pass8[N8] = 0; //���������� � ����� ������ ������� ����� ������
+		pass8[N8] = 0; //write null terminator at the end of the string
 
 		int N9 = 3 + rand() % 10;
 		char str9[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN9 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass9 = new char[N9 + 1]; //�������� ������ ��� ������ ������
+		int strN9 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass9 = new char[N9 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N9; i++)
 		{
-			pass9[i] = str9[rand() % strN9]; //��������� ��������� ������
+			pass9[i] = str9[rand() % strN9]; //insert a random character
 		}
-		pass9[N9] = 0; //���������� � ����� ������ ������� ����� ������
+		pass9[N9] = 0; //write null terminator at the end of the string
 
 		int N10 = 3 + rand() % 10;
 		char str10[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN10 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass10 = new char[N10 + 1]; //�������� ������ ��� ������ ������
+		int strN10 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass10 = new char[N10 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N10; i++)
 		{
-			pass10[i] = str10[rand() % strN10]; //��������� ��������� ������
+			pass10[i] = str10[rand() % strN10]; //insert a random character
 		}
-		pass10[N10] = 0; //���������� � ����� ������ ������� ����� ������
+		pass10[N10] = 0; //write null terminator at the end of the string
 
 		int N11 = 3 + rand() % 10;
 		char str11[]{ "abcdefghijklmnopqrstuvwxyz" };
-		int strN11 = 26; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass11 = new char[N11 + 1]; //�������� ������ ��� ������ ������
+		int strN11 = 26; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass11 = new char[N11 + 1]; //allocate memory for the password string
 		for (int i = 0; i < N11; i++)
 		{
-			pass11[i] = str11[rand() % strN11]; //��������� ��������� ������
+			pass11[i] = str11[rand() % strN11]; //insert a random character
 		}
-		pass11[N11] = 0; //���������� � ����� ������ ������� ����� ������
+		pass11[N11] = 0; //write null terminator at the end of the string
 		std::stringstream ss;
 		ss << pass << " " << pass1 << " " << pass2 << " " << pass3 << " " << pass4 << " " << pass5 << " " << pass6 << " " << pass7 << " " << pass8 << " " << pass9 << " " << pass10 << " " << pass11;
 		std::string input = ss.str();
@@ -29444,14 +29436,14 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 56) {
 		int N = nbit;
 		char str[]{ "!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
-		int strN = 31; // ������ ���������� �������� � �������
-		//srand(time(NULL)); //�������������� ��������� ��������� �����
-		char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+		int strN = 31; // index of the last element in the array
+		//srand(time(NULL)); //initialize the random number generator
+		char* pass = new char[N + 1]; //allocate memory for the password string
 		for (int i = 0; i < N; i++)
 		{
-			pass[i] = str[rand() % strN]; //��������� ��������� ������
+			pass[i] = str[rand() % strN]; //insert a random character
 		}
-		pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+		pass[N] = 0; //write null terminator at the end of the string
 		string input = pass;
 		string nos = sha256(input);
 		char* cstr = &nos[0];
@@ -47200,25 +47192,25 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 
 			int N = nbit;
 			char str[]{ "0123456789abcdef" };
-			int strN = 16; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 16; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 
 			int N2 = maxFound;
 			char str2[]{ "0123456789abcdef" };
-			int strN2 = 16; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+			int strN2 = 16; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N2; i++)
 			{
-				pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+				pass2[i] = str2[rand() % strN2]; //insert a random character
 			}
-			pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+			pass2[N2] = 0; //write null terminator at the end of the string
 
 
 			std::stringstream ss;
@@ -55909,14 +55901,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 7) {
 			int N = nbit;
 			char str[]{ "0123456789" };
-			int strN = 10; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 10; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			string input = pass;
 			string nos = sha256(input);
 			char* cstr = &nos[0];
@@ -55932,14 +55924,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 8) {
 			int N = nbit;
 			char str[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			string input = pass;
 			string nos = sha256(input);
 			char* cstr = &nos[0];
@@ -55955,14 +55947,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 9) {
 			int N = nbit;
 			char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-			int strN = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			string input = pass;
 			string nos = sha256(input);
 			char* cstr = &nos[0];
@@ -55978,14 +55970,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 10) {
 			int N = nbit;
 			char str[]{ "abcdefghijklmnopqrstuvwxyz0123456789" };
-			int strN = 36; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 36; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			string input = pass;
 			string nos = sha256(input);
 			char* cstr = &nos[0];
@@ -56001,14 +55993,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 11) {
 			int N = nbit;
 			char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" };
-			int strN = 36; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 36; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			string input = pass;
 			string nos = sha256(input);
 			char* cstr = &nos[0];
@@ -56024,14 +56016,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 12) {
 			int N = nbit;
 			char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" };
-			int strN = 52; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 52; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			string input = pass;
 			string nos = sha256(input);
 			char* cstr = &nos[0];
@@ -56047,14 +56039,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 13) {
 			int N = nbit;
 			char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" };
-			int strN = 62; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 62; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			string input = pass;
 			string nos = sha256(input);
 			char* cstr = &nos[0];
@@ -56070,14 +56062,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 14) {
 			int N = nbit;
 			char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
-			int strN = 93; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 93; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			string input = pass;
 			string nos = sha256(input);
 			char* cstr = &nos[0];
@@ -56093,15 +56085,15 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 15) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "��������������������������������" };
-			int strN = 33; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			char str[]{ "\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" };
+			int strN = 33; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			string input = pass;
 			string nos = sha256(input);
 			char* cstr = &nos[0];
@@ -56117,15 +56109,15 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 16) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "�����Ũ��������������������������" };
-			int strN = 33; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf" };
+			int strN = 33; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			string input = pass;
 			string nos = sha256(input);
 			char* cstr = &nos[0];
@@ -56141,15 +56133,15 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 17) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "�����Ũ����������������������������������������������������������" };
-			int strN = 66; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" };
+			int strN = 66; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			string input = pass;
 			string nos = sha256(input);
 			char* cstr = &nos[0];
@@ -56165,15 +56157,15 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 18) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "�����Ũ����������������������������������������������������������0123456789" };
-			int strN = 76; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789" };
+			int strN = 76; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			string input = pass;
 			string nos = sha256(input);
 			char* cstr = &nos[0];
@@ -56189,15 +56181,15 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 19) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "�����Ũ����������������������������������������������������������0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
-			int strN = 107; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+			int strN = 107; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			string input = pass;
 			string nos = sha256(input);
 			char* cstr = &nos[0];
@@ -56213,14 +56205,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 20) {
 			int N = nbit;
 			char str[]{ "0123456789" };
-			int strN = 10; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 10; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 
 			std::stringstream ss;
 			ss << seed << pass;
@@ -56238,14 +56230,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 21) {
 			int N = nbit;
 			char str[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 
 			std::stringstream ss;
 			ss << seed << pass;
@@ -56264,14 +56256,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 22) {
 			int N = nbit;
 			char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-			int strN = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 
 			std::stringstream ss;
 			ss << seed << pass;
@@ -56290,14 +56282,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 23) {
 			int N = nbit;
 			char str[]{ "abcdefghijklmnopqrstuvwxyz0123456789" };
-			int strN = 36; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 36; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << pass;
 			std::string input = ss.str();
@@ -56315,14 +56307,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 24) {
 			int N = nbit;
 			char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" };
-			int strN = 36; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 36; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << pass;
 			std::string input = ss.str();
@@ -56340,14 +56332,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 25) {
 			int N = nbit;
 			char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" };
-			int strN = 52; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 52; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << pass;
 			std::string input = ss.str();
@@ -56365,14 +56357,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 26) {
 			int N = nbit;
 			char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" };
-			int strN = 62; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 62; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << pass;
 			std::string input = ss.str();
@@ -56390,14 +56382,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 27) {
 			int N = nbit;
 			char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
-			int strN = 92; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 92; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << pass;
 			std::string input = ss.str();
@@ -56415,15 +56407,15 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 28) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "��������������������������������" };
-			int strN = 33; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			char str[]{ "\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" };
+			int strN = 33; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << pass;
 			std::string input = ss.str();
@@ -56441,15 +56433,15 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 29) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "�����Ũ��������������������������" };
-			int strN = 33; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf" };
+			int strN = 33; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << pass;
 			std::string input = ss.str();
@@ -56467,15 +56459,15 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 30) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "�����Ũ����������������������������������������������������������" };
-			int strN = 66; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" };
+			int strN = 66; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << pass;
 			std::string input = ss.str();
@@ -56493,15 +56485,15 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 31) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "�����Ũ����������������������������������������������������������0123456789" };
-			int strN = 76; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789" };
+			int strN = 76; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << pass;
 			std::string input = ss.str();
@@ -56519,13 +56511,13 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 32) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "�����Ũ����������������������������������������������������������0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
-			int strN = 106; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+			int strN = 106; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
 			std::stringstream ss;
 			ss << seed << pass;
@@ -56544,14 +56536,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 33) {
 			int N = nbit;
 			char str[]{ "0123456789" };
-			int strN = 10; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 10; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << " " << pass;
 			std::string input = ss.str();
@@ -56569,14 +56561,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 34) {
 			int N = nbit;
 			char str[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << " " << pass;
 			std::string input = ss.str();
@@ -56594,14 +56586,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 35) {
 			int N = nbit;
 			char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-			int strN = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << " " << pass;
 			std::string input = ss.str();
@@ -56619,14 +56611,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 36) {
 			int N = nbit;
 			char str[]{ "abcdefghijklmnopqrstuvwxyz0123456789" };
-			int strN = 36; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 36; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << " " << pass;
 			std::string input = ss.str();
@@ -56644,14 +56636,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 37) {
 			int N = nbit;
 			char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" };
-			int strN = 36; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 36; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << " " << pass;
 			std::string input = ss.str();
@@ -56669,14 +56661,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 38) {
 			int N = nbit;
 			char str[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" };
-			int strN = 52; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 52; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << " " << pass;
 			std::string input = ss.str();
@@ -56694,14 +56686,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 39) {
 			int N = nbit;
 			char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" };
-			int strN = 62; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 62; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << " " << pass;
 			std::string input = ss.str();
@@ -56719,14 +56711,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 40) {
 			int N = nbit;
 			char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
-			int strN = 93; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 93; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << " " << pass;
 			std::string input = ss.str();
@@ -56744,15 +56736,15 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 41) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "��������������������������������" };
-			int strN = 33; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			char str[]{ "\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" };
+			int strN = 33; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << " " << pass;
 			std::string input = ss.str();
@@ -56770,15 +56762,15 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 42) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "�����Ũ��������������������������" };
-			int strN = 33; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf" };
+			int strN = 33; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << " " << pass;
 			std::string input = ss.str();
@@ -56796,15 +56788,15 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 43) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "�����Ũ����������������������������������������������������������" };
-			int strN = 66; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" };
+			int strN = 66; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << " " << pass;
 			std::string input = ss.str();
@@ -56822,15 +56814,15 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 44) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "�����Ũ����������������������������������������������������������0123456789" };
-			int strN = 76; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789" };
+			int strN = 76; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << seed << " " << pass;
 			std::string input = ss.str();
@@ -56848,13 +56840,13 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 45) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "�����Ũ����������������������������������������������������������0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
-			int strN = 107; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+			int strN = 107; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
 			std::stringstream ss;
 			ss << seed << " " << pass;
@@ -56873,36 +56865,36 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 46) {
 			int N = 2;
 			char str[]{ "0123456789" };
-			int strN = 10; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 10; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 
 			int N2 = nbit;
 			char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN2 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+			int strN2 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N2; i++)
 			{
-				pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+				pass2[i] = str2[rand() % strN2]; //insert a random character
 			}
-			pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+			pass2[N2] = 0; //write null terminator at the end of the string
 
 			int N3 = 1;
 			char str3[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-			int strN3 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass3 = new char[N3 + 1]; //�������� ������ ��� ������ ������
+			int strN3 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass3 = new char[N3 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N3; i++)
 			{
-				pass3[i] = str3[rand() % strN3]; //��������� ��������� ������
+				pass3[i] = str3[rand() % strN3]; //insert a random character
 			}
-			pass3[N3] = 0; //���������� � ����� ������ ������� ����� ������
+			pass3[N3] = 0; //write null terminator at the end of the string
 
 			std::stringstream ss;
 			ss << pass3 << pass2 << pass;
@@ -56921,36 +56913,36 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 47) {
 			int N = 4;
 			char str[]{ "0123456789" };
-			int strN = 10; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 10; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 
 			int N2 = nbit;
 			char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN2 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+			int strN2 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N2; i++)
 			{
-				pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+				pass2[i] = str2[rand() % strN2]; //insert a random character
 			}
-			pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+			pass2[N2] = 0; //write null terminator at the end of the string
 
 			int N3 = 1;
 			char str3[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-			int strN3 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass3 = new char[N3 + 1]; //�������� ������ ��� ������ ������
+			int strN3 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass3 = new char[N3 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N3; i++)
 			{
-				pass3[i] = str3[rand() % strN3]; //��������� ��������� ������
+				pass3[i] = str3[rand() % strN3]; //insert a random character
 			}
-			pass3[N3] = 0; //���������� � ����� ������ ������� ����� ������
+			pass3[N3] = 0; //write null terminator at the end of the string
 
 			std::stringstream ss;
 			ss << pass3 << pass2 << pass;
@@ -56969,36 +56961,36 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 48) {
 			int N = 6;
 			char str[]{ "0123456789" };
-			int strN = 10; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 10; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 
 			int N2 = nbit;
 			char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN2 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+			int strN2 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N2; i++)
 			{
-				pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+				pass2[i] = str2[rand() % strN2]; //insert a random character
 			}
-			pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+			pass2[N2] = 0; //write null terminator at the end of the string
 
 			int N3 = 1;
 			char str3[]{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
-			int strN3 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass3 = new char[N3 + 1]; //�������� ������ ��� ������ ������
+			int strN3 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass3 = new char[N3 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N3; i++)
 			{
-				pass3[i] = str3[rand() % strN3]; //��������� ��������� ������
+				pass3[i] = str3[rand() % strN3]; //insert a random character
 			}
-			pass3[N3] = 0; //���������� � ����� ������ ������� ����� ������
+			pass3[N3] = 0; //write null terminator at the end of the string
 
 			std::stringstream ss;
 			ss << pass3 << pass2 << pass;
@@ -57018,25 +57010,25 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 49) {
 			int N2 = 3 + rand() % 7;
 			char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN2 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+			int strN2 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N2; i++)
 			{
-				pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+				pass2[i] = str2[rand() % strN2]; //insert a random character
 			}
-			pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+			pass2[N2] = 0; //write null terminator at the end of the string
 
 			int N4 = 3 + rand() % 7;
 			char str4[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN4 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass4 = new char[N4 + 1]; //�������� ������ ��� ������ ������
+			int strN4 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass4 = new char[N4 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N4; i++)
 			{
-				pass4[i] = str4[rand() % strN4]; //��������� ��������� ������
+				pass4[i] = str4[rand() % strN4]; //insert a random character
 			}
-			pass4[N4] = 0; //���������� � ����� ������ ������� ����� ������
+			pass4[N4] = 0; //write null terminator at the end of the string
 
 			std::stringstream ss;
 			ss << pass2 << " " << pass4;
@@ -57055,24 +57047,24 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 50) {
 			int N2 = 3 + rand() % 7;
 			char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN2 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+			int strN2 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N2; i++)
 			{
-				pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+				pass2[i] = str2[rand() % strN2]; //insert a random character
 			}
-			pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+			pass2[N2] = 0; //write null terminator at the end of the string
 			int N4 = 3 + rand() % 7;
 			char str4[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN4 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass4 = new char[N4 + 1]; //�������� ������ ��� ������ ������
+			int strN4 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass4 = new char[N4 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N4; i++)
 			{
-				pass4[i] = str4[rand() % strN4]; //��������� ��������� ������
+				pass4[i] = str4[rand() % strN4]; //insert a random character
 			}
-			pass4[N4] = 0; //���������� � ����� ������ ������� ����� ������
+			pass4[N4] = 0; //write null terminator at the end of the string
 
 			std::stringstream ss;
 			ss << seed << " " << pass2 << " " << pass4;
@@ -57090,136 +57082,136 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 51) {
 			int N = 3 + rand() % 3;
 			char str[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 
 			int N1 = 3 + rand() % 3;
 			char str1[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN1 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass1 = new char[N1 + 1]; //�������� ������ ��� ������ ������
+			int strN1 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass1 = new char[N1 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N1; i++)
 			{
-				pass1[i] = str1[rand() % strN1]; //��������� ��������� ������
+				pass1[i] = str1[rand() % strN1]; //insert a random character
 			}
-			pass1[N1] = 0; //���������� � ����� ������ ������� ����� ������
+			pass1[N1] = 0; //write null terminator at the end of the string
 
 			int N2 = 3 + rand() % 3;
 			char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN2 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+			int strN2 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N2; i++)
 			{
-				pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+				pass2[i] = str2[rand() % strN2]; //insert a random character
 			}
-			pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+			pass2[N2] = 0; //write null terminator at the end of the string
 
 
 			int N3 = 3 + rand() % 3;
 			char str3[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN3 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass3 = new char[N3 + 1]; //�������� ������ ��� ������ ������
+			int strN3 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass3 = new char[N3 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N3; i++)
 			{
-				pass3[i] = str3[rand() % strN3]; //��������� ��������� ������
+				pass3[i] = str3[rand() % strN3]; //insert a random character
 			}
-			pass3[N3] = 0; //���������� � ����� ������ ������� ����� ������
+			pass3[N3] = 0; //write null terminator at the end of the string
 
 			int N4 = 3 + rand() % 3;
 			char str4[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN4 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass4 = new char[N4 + 1]; //�������� ������ ��� ������ ������
+			int strN4 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass4 = new char[N4 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N4; i++)
 			{
-				pass4[i] = str4[rand() % strN4]; //��������� ��������� ������
+				pass4[i] = str4[rand() % strN4]; //insert a random character
 			}
-			pass4[N4] = 0; //���������� � ����� ������ ������� ����� ������
+			pass4[N4] = 0; //write null terminator at the end of the string
 
 
 			int N5 = 3 + rand() % 3;
 			char str5[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN5 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass5 = new char[N5 + 1]; //�������� ������ ��� ������ ������
+			int strN5 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass5 = new char[N5 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N5; i++)
 			{
-				pass5[i] = str5[rand() % strN5]; //��������� ��������� ������
+				pass5[i] = str5[rand() % strN5]; //insert a random character
 			}
-			pass5[N5] = 0; //���������� � ����� ������ ������� ����� ������
+			pass5[N5] = 0; //write null terminator at the end of the string
 
 			int N6 = 3 + rand() % 3;
 			char str6[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN6 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass6 = new char[N6 + 1]; //�������� ������ ��� ������ ������
+			int strN6 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass6 = new char[N6 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N6; i++)
 			{
-				pass6[i] = str6[rand() % strN6]; //��������� ��������� ������
+				pass6[i] = str6[rand() % strN6]; //insert a random character
 			}
-			pass6[N6] = 0; //���������� � ����� ������ ������� ����� ������
+			pass6[N6] = 0; //write null terminator at the end of the string
 			int N7 = 3 + rand() % 3;
 			char str7[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN7 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass7 = new char[N7 + 1]; //�������� ������ ��� ������ ������
+			int strN7 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass7 = new char[N7 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N7; i++)
 			{
-				pass7[i] = str7[rand() % strN7]; //��������� ��������� ������
+				pass7[i] = str7[rand() % strN7]; //insert a random character
 			}
-			pass7[N7] = 0; //���������� � ����� ������ ������� ����� ������
+			pass7[N7] = 0; //write null terminator at the end of the string
 
 			int N8 = 3 + rand() % 3;
 			char str8[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN8 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass8 = new char[N8 + 1]; //�������� ������ ��� ������ ������
+			int strN8 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass8 = new char[N8 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N8; i++)
 			{
-				pass8[i] = str8[rand() % strN8]; //��������� ��������� ������
+				pass8[i] = str8[rand() % strN8]; //insert a random character
 			}
-			pass8[N8] = 0; //���������� � ����� ������ ������� ����� ������
+			pass8[N8] = 0; //write null terminator at the end of the string
 
 			int N9 = 3 + rand() % 3;
 			char str9[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN9 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass9 = new char[N9 + 1]; //�������� ������ ��� ������ ������
+			int strN9 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass9 = new char[N9 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N9; i++)
 			{
-				pass9[i] = str9[rand() % strN9]; //��������� ��������� ������
+				pass9[i] = str9[rand() % strN9]; //insert a random character
 			}
-			pass9[N9] = 0; //���������� � ����� ������ ������� ����� ������
+			pass9[N9] = 0; //write null terminator at the end of the string
 
 			int N10 = 3 + rand() % 3;
 			char str10[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN10 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass10 = new char[N10 + 1]; //�������� ������ ��� ������ ������
+			int strN10 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass10 = new char[N10 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N10; i++)
 			{
-				pass10[i] = str10[rand() % strN10]; //��������� ��������� ������
+				pass10[i] = str10[rand() % strN10]; //insert a random character
 			}
-			pass10[N10] = 0; //���������� � ����� ������ ������� ����� ������
+			pass10[N10] = 0; //write null terminator at the end of the string
 
 			int N11 = 3 + rand() % 3;
 			char str11[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN11 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass11 = new char[N11 + 1]; //�������� ������ ��� ������ ������
+			int strN11 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass11 = new char[N11 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N11; i++)
 			{
-				pass11[i] = str11[rand() % strN11]; //��������� ��������� ������
+				pass11[i] = str11[rand() % strN11]; //insert a random character
 			}
-			pass11[N11] = 0; //���������� � ����� ������ ������� ����� ������
+			pass11[N11] = 0; //write null terminator at the end of the string
 
 			std::stringstream ss;
 			ss << pass << " " << pass1 << " " << pass2 << " " << pass3 << " " << pass4 << " " << pass5 << " " << pass6 << " " << pass7 << " " << pass8 << " " << pass9 << " " << pass10 << " " << pass11;
@@ -57239,138 +57231,138 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 52) {
 			int N = 3 + rand() % 5;
 			char str[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 
 			int N1 = 3 + rand() % 5;
 			char str1[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN1 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass1 = new char[N1 + 1]; //�������� ������ ��� ������ ������
+			int strN1 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass1 = new char[N1 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N1; i++)
 			{
-				pass1[i] = str1[rand() % strN1]; //��������� ��������� ������
+				pass1[i] = str1[rand() % strN1]; //insert a random character
 			}
-			pass1[N1] = 0; //���������� � ����� ������ ������� ����� ������
+			pass1[N1] = 0; //write null terminator at the end of the string
 
 			int N2 = 3 + rand() % 5;
 			char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN2 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+			int strN2 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N2; i++)
 			{
-				pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+				pass2[i] = str2[rand() % strN2]; //insert a random character
 			}
-			pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+			pass2[N2] = 0; //write null terminator at the end of the string
 
 
 			int N3 = 3 + rand() % 5;
 			char str3[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN3 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass3 = new char[N3 + 1]; //�������� ������ ��� ������ ������
+			int strN3 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass3 = new char[N3 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N3; i++)
 			{
-				pass3[i] = str3[rand() % strN3]; //��������� ��������� ������
+				pass3[i] = str3[rand() % strN3]; //insert a random character
 			}
-			pass3[N3] = 0; //���������� � ����� ������ ������� ����� ������
+			pass3[N3] = 0; //write null terminator at the end of the string
 
 			int N4 = 3 + rand() % 5;
 			char str4[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN4 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass4 = new char[N4 + 1]; //�������� ������ ��� ������ ������
+			int strN4 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass4 = new char[N4 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N4; i++)
 			{
-				pass4[i] = str4[rand() % strN4]; //��������� ��������� ������
+				pass4[i] = str4[rand() % strN4]; //insert a random character
 			}
-			pass4[N4] = 0; //���������� � ����� ������ ������� ����� ������
+			pass4[N4] = 0; //write null terminator at the end of the string
 
 
 			int N5 = 3 + rand() % 5;
 			char str5[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN5 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass5 = new char[N5 + 1]; //�������� ������ ��� ������ ������
+			int strN5 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass5 = new char[N5 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N5; i++)
 			{
-				pass5[i] = str5[rand() % strN5]; //��������� ��������� ������
+				pass5[i] = str5[rand() % strN5]; //insert a random character
 			}
-			pass5[N5] = 0; //���������� � ����� ������ ������� ����� ������
+			pass5[N5] = 0; //write null terminator at the end of the string
 
 			int N6 = 3 + rand() % 5;
 			char str6[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN6 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass6 = new char[N6 + 1]; //�������� ������ ��� ������ ������
+			int strN6 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass6 = new char[N6 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N6; i++)
 			{
-				pass6[i] = str6[rand() % strN6]; //��������� ��������� ������
+				pass6[i] = str6[rand() % strN6]; //insert a random character
 			}
-			pass6[N6] = 0; //���������� � ����� ������ ������� ����� ������
+			pass6[N6] = 0; //write null terminator at the end of the string
 
 
 			int N7 = 3 + rand() % 5;
 			char str7[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN7 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass7 = new char[N7 + 1]; //�������� ������ ��� ������ ������
+			int strN7 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass7 = new char[N7 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N7; i++)
 			{
-				pass7[i] = str7[rand() % strN7]; //��������� ��������� ������
+				pass7[i] = str7[rand() % strN7]; //insert a random character
 			}
-			pass7[N7] = 0; //���������� � ����� ������ ������� ����� ������
+			pass7[N7] = 0; //write null terminator at the end of the string
 
 			int N8 = 3 + rand() % 5;
 			char str8[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN8 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass8 = new char[N8 + 1]; //�������� ������ ��� ������ ������
+			int strN8 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass8 = new char[N8 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N8; i++)
 			{
-				pass8[i] = str8[rand() % strN8]; //��������� ��������� ������
+				pass8[i] = str8[rand() % strN8]; //insert a random character
 			}
-			pass8[N8] = 0; //���������� � ����� ������ ������� ����� ������
+			pass8[N8] = 0; //write null terminator at the end of the string
 
 			int N9 = 3 + rand() % 5;
 			char str9[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN9 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass9 = new char[N9 + 1]; //�������� ������ ��� ������ ������
+			int strN9 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass9 = new char[N9 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N9; i++)
 			{
-				pass9[i] = str9[rand() % strN9]; //��������� ��������� ������
+				pass9[i] = str9[rand() % strN9]; //insert a random character
 			}
-			pass9[N9] = 0; //���������� � ����� ������ ������� ����� ������
+			pass9[N9] = 0; //write null terminator at the end of the string
 
 			int N10 = 3 + rand() % 5;
 			char str10[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN10 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass10 = new char[N10 + 1]; //�������� ������ ��� ������ ������
+			int strN10 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass10 = new char[N10 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N10; i++)
 			{
-				pass10[i] = str10[rand() % strN10]; //��������� ��������� ������
+				pass10[i] = str10[rand() % strN10]; //insert a random character
 			}
-			pass10[N10] = 0; //���������� � ����� ������ ������� ����� ������
+			pass10[N10] = 0; //write null terminator at the end of the string
 
 			int N11 = 3 + rand() % 5;
 			char str11[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN11 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass11 = new char[N11 + 1]; //�������� ������ ��� ������ ������
+			int strN11 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass11 = new char[N11 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N11; i++)
 			{
-				pass11[i] = str11[rand() % strN11]; //��������� ��������� ������
+				pass11[i] = str11[rand() % strN11]; //insert a random character
 			}
-			pass11[N11] = 0; //���������� � ����� ������ ������� ����� ������
+			pass11[N11] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << pass << " " << pass1 << " " << pass2 << " " << pass3 << " " << pass4 << " " << pass5 << " " << pass6 << " " << pass7 << " " << pass8 << " " << pass9 << " " << pass10 << " " << pass11;
 			std::string input = ss.str();
@@ -57388,137 +57380,137 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 53) {
 			int N = 3 + rand() % 8;
 			char str[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 
 			int N1 = 3 + rand() % 8;
 			char str1[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN1 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass1 = new char[N1 + 1]; //�������� ������ ��� ������ ������
+			int strN1 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass1 = new char[N1 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N1; i++)
 			{
-				pass1[i] = str1[rand() % strN1]; //��������� ��������� ������
+				pass1[i] = str1[rand() % strN1]; //insert a random character
 			}
-			pass1[N1] = 0; //���������� � ����� ������ ������� ����� ������
+			pass1[N1] = 0; //write null terminator at the end of the string
 
 			int N2 = 3 + rand() % 8;
 			char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN2 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+			int strN2 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N2; i++)
 			{
-				pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+				pass2[i] = str2[rand() % strN2]; //insert a random character
 			}
-			pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+			pass2[N2] = 0; //write null terminator at the end of the string
 
 			int N3 = 3 + rand() % 8;
 			char str3[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN3 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass3 = new char[N3 + 1]; //�������� ������ ��� ������ ������
+			int strN3 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass3 = new char[N3 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N3; i++)
 			{
-				pass3[i] = str3[rand() % strN3]; //��������� ��������� ������
+				pass3[i] = str3[rand() % strN3]; //insert a random character
 			}
-			pass3[N3] = 0; //���������� � ����� ������ ������� ����� ������
+			pass3[N3] = 0; //write null terminator at the end of the string
 
 			int N4 = 3 + rand() % 8;
 			char str4[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN4 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass4 = new char[N4 + 1]; //�������� ������ ��� ������ ������
+			int strN4 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass4 = new char[N4 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N4; i++)
 			{
-				pass4[i] = str4[rand() % strN4]; //��������� ��������� ������
+				pass4[i] = str4[rand() % strN4]; //insert a random character
 			}
-			pass4[N4] = 0; //���������� � ����� ������ ������� ����� ������
+			pass4[N4] = 0; //write null terminator at the end of the string
 
 
 			int N5 = 3 + rand() % 8;
 			char str5[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN5 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass5 = new char[N5 + 1]; //�������� ������ ��� ������ ������
+			int strN5 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass5 = new char[N5 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N5; i++)
 			{
-				pass5[i] = str5[rand() % strN5]; //��������� ��������� ������
+				pass5[i] = str5[rand() % strN5]; //insert a random character
 			}
-			pass5[N5] = 0; //���������� � ����� ������ ������� ����� ������
+			pass5[N5] = 0; //write null terminator at the end of the string
 
 			int N6 = 3 + rand() % 8;
 			char str6[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN6 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass6 = new char[N6 + 1]; //�������� ������ ��� ������ ������
+			int strN6 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass6 = new char[N6 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N6; i++)
 			{
-				pass6[i] = str6[rand() % strN6]; //��������� ��������� ������
+				pass6[i] = str6[rand() % strN6]; //insert a random character
 			}
-			pass6[N6] = 0; //���������� � ����� ������ ������� ����� ������
+			pass6[N6] = 0; //write null terminator at the end of the string
 
 
 			int N7 = 3 + rand() % 8;
 			char str7[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN7 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass7 = new char[N7 + 1]; //�������� ������ ��� ������ ������
+			int strN7 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass7 = new char[N7 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N7; i++)
 			{
-				pass7[i] = str7[rand() % strN7]; //��������� ��������� ������
+				pass7[i] = str7[rand() % strN7]; //insert a random character
 			}
-			pass7[N7] = 0; //���������� � ����� ������ ������� ����� ������
+			pass7[N7] = 0; //write null terminator at the end of the string
 
 			int N8 = 3 + rand() % 8;
 			char str8[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN8 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass8 = new char[N8 + 1]; //�������� ������ ��� ������ ������
+			int strN8 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass8 = new char[N8 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N8; i++)
 			{
-				pass8[i] = str8[rand() % strN8]; //��������� ��������� ������
+				pass8[i] = str8[rand() % strN8]; //insert a random character
 			}
-			pass8[N8] = 0; //���������� � ����� ������ ������� ����� ������
+			pass8[N8] = 0; //write null terminator at the end of the string
 
 			int N9 = 3 + rand() % 8;
 			char str9[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN9 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass9 = new char[N9 + 1]; //�������� ������ ��� ������ ������
+			int strN9 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass9 = new char[N9 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N9; i++)
 			{
-				pass9[i] = str9[rand() % strN9]; //��������� ��������� ������
+				pass9[i] = str9[rand() % strN9]; //insert a random character
 			}
-			pass9[N9] = 0; //���������� � ����� ������ ������� ����� ������
+			pass9[N9] = 0; //write null terminator at the end of the string
 
 			int N10 = 3 + rand() % 8;
 			char str10[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN10 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass10 = new char[N10 + 1]; //�������� ������ ��� ������ ������
+			int strN10 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass10 = new char[N10 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N10; i++)
 			{
-				pass10[i] = str10[rand() % strN10]; //��������� ��������� ������
+				pass10[i] = str10[rand() % strN10]; //insert a random character
 			}
-			pass10[N10] = 0; //���������� � ����� ������ ������� ����� ������
+			pass10[N10] = 0; //write null terminator at the end of the string
 
 			int N11 = 3 + rand() % 8;
 			char str11[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN11 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass11 = new char[N11 + 1]; //�������� ������ ��� ������ ������
+			int strN11 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass11 = new char[N11 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N11; i++)
 			{
-				pass11[i] = str11[rand() % strN11]; //��������� ��������� ������
+				pass11[i] = str11[rand() % strN11]; //insert a random character
 			}
-			pass11[N11] = 0; //���������� � ����� ������ ������� ����� ������
+			pass11[N11] = 0; //write null terminator at the end of the string
 
 			std::stringstream ss;
 			ss << pass << " " << pass1 << " " << pass2 << " " << pass3 << " " << pass4 << " " << pass5 << " " << pass6 << " " << pass7 << " " << pass8 << " " << pass9 << " " << pass10 << " " << pass11;
@@ -57538,138 +57530,138 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 54) {
 			int N = 3 + rand() % 10;
 			char str[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 
 			int N1 = 3 + rand() % 10;
 			char str1[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN1 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass1 = new char[N1 + 1]; //�������� ������ ��� ������ ������
+			int strN1 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass1 = new char[N1 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N1; i++)
 			{
-				pass1[i] = str1[rand() % strN1]; //��������� ��������� ������
+				pass1[i] = str1[rand() % strN1]; //insert a random character
 			}
-			pass1[N1] = 0; //���������� � ����� ������ ������� ����� ������
+			pass1[N1] = 0; //write null terminator at the end of the string
 
 			int N2 = 3 + rand() % 10;
 			char str2[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN2 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass2 = new char[N2 + 1]; //�������� ������ ��� ������ ������
+			int strN2 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass2 = new char[N2 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N2; i++)
 			{
-				pass2[i] = str2[rand() % strN2]; //��������� ��������� ������
+				pass2[i] = str2[rand() % strN2]; //insert a random character
 			}
-			pass2[N2] = 0; //���������� � ����� ������ ������� ����� ������
+			pass2[N2] = 0; //write null terminator at the end of the string
 
 
 			int N3 = 3 + rand() % 10;
 			char str3[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN3 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass3 = new char[N3 + 1]; //�������� ������ ��� ������ ������
+			int strN3 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass3 = new char[N3 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N3; i++)
 			{
-				pass3[i] = str3[rand() % strN3]; //��������� ��������� ������
+				pass3[i] = str3[rand() % strN3]; //insert a random character
 			}
-			pass3[N3] = 0; //���������� � ����� ������ ������� ����� ������
+			pass3[N3] = 0; //write null terminator at the end of the string
 
 			int N4 = 3 + rand() % 10;
 			char str4[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN4 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass4 = new char[N4 + 1]; //�������� ������ ��� ������ ������
+			int strN4 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass4 = new char[N4 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N4; i++)
 			{
-				pass4[i] = str4[rand() % strN4]; //��������� ��������� ������
+				pass4[i] = str4[rand() % strN4]; //insert a random character
 			}
-			pass4[N4] = 0; //���������� � ����� ������ ������� ����� ������
+			pass4[N4] = 0; //write null terminator at the end of the string
 
 
 			int N5 = 3 + rand() % 10;
 			char str5[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN5 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass5 = new char[N5 + 1]; //�������� ������ ��� ������ ������
+			int strN5 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass5 = new char[N5 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N5; i++)
 			{
-				pass5[i] = str5[rand() % strN5]; //��������� ��������� ������
+				pass5[i] = str5[rand() % strN5]; //insert a random character
 			}
-			pass5[N5] = 0; //���������� � ����� ������ ������� ����� ������
+			pass5[N5] = 0; //write null terminator at the end of the string
 
 			int N6 = 3 + rand() % 10;
 			char str6[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN6 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass6 = new char[N6 + 1]; //�������� ������ ��� ������ ������
+			int strN6 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass6 = new char[N6 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N6; i++)
 			{
-				pass6[i] = str6[rand() % strN6]; //��������� ��������� ������
+				pass6[i] = str6[rand() % strN6]; //insert a random character
 			}
-			pass6[N6] = 0; //���������� � ����� ������ ������� ����� ������
+			pass6[N6] = 0; //write null terminator at the end of the string
 
 
 			int N7 = 3 + rand() % 10;
 			char str7[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN7 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass7 = new char[N7 + 1]; //�������� ������ ��� ������ ������
+			int strN7 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass7 = new char[N7 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N7; i++)
 			{
-				pass7[i] = str7[rand() % strN7]; //��������� ��������� ������
+				pass7[i] = str7[rand() % strN7]; //insert a random character
 			}
-			pass7[N7] = 0; //���������� � ����� ������ ������� ����� ������
+			pass7[N7] = 0; //write null terminator at the end of the string
 
 			int N8 = 3 + rand() % 10;
 			char str8[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN8 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass8 = new char[N8 + 1]; //�������� ������ ��� ������ ������
+			int strN8 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass8 = new char[N8 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N8; i++)
 			{
-				pass8[i] = str8[rand() % strN8]; //��������� ��������� ������
+				pass8[i] = str8[rand() % strN8]; //insert a random character
 			}
-			pass8[N8] = 0; //���������� � ����� ������ ������� ����� ������
+			pass8[N8] = 0; //write null terminator at the end of the string
 
 			int N9 = 3 + rand() % 10;
 			char str9[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN9 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass9 = new char[N9 + 1]; //�������� ������ ��� ������ ������
+			int strN9 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass9 = new char[N9 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N9; i++)
 			{
-				pass9[i] = str9[rand() % strN9]; //��������� ��������� ������
+				pass9[i] = str9[rand() % strN9]; //insert a random character
 			}
-			pass9[N9] = 0; //���������� � ����� ������ ������� ����� ������
+			pass9[N9] = 0; //write null terminator at the end of the string
 
 			int N10 = 3 + rand() % 10;
 			char str10[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN10 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass10 = new char[N10 + 1]; //�������� ������ ��� ������ ������
+			int strN10 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass10 = new char[N10 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N10; i++)
 			{
-				pass10[i] = str10[rand() % strN10]; //��������� ��������� ������
+				pass10[i] = str10[rand() % strN10]; //insert a random character
 			}
-			pass10[N10] = 0; //���������� � ����� ������ ������� ����� ������
+			pass10[N10] = 0; //write null terminator at the end of the string
 
 			int N11 = 3 + rand() % 10;
 			char str11[]{ "abcdefghijklmnopqrstuvwxyz" };
-			int strN11 = 26; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass11 = new char[N11 + 1]; //�������� ������ ��� ������ ������
+			int strN11 = 26; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass11 = new char[N11 + 1]; //allocate memory for the password string
 			for (int i = 0; i < N11; i++)
 			{
-				pass11[i] = str11[rand() % strN11]; //��������� ��������� ������
+				pass11[i] = str11[rand() % strN11]; //insert a random character
 			}
-			pass11[N11] = 0; //���������� � ����� ������ ������� ����� ������
+			pass11[N11] = 0; //write null terminator at the end of the string
 			std::stringstream ss;
 			ss << pass << " " << pass1 << " " << pass2 << " " << pass3 << " " << pass4 << " " << pass5 << " " << pass6 << " " << pass7 << " " << pass8 << " " << pass9 << " " << pass10 << " " << pass11;
 			std::string input = ss.str();
@@ -57710,14 +57702,14 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 56) {
 			int N = nbit;
 			char str[]{ "!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
-			int strN = 31; // ������ ���������� �������� � �������
-			//srand(time(NULL)); //�������������� ��������� ��������� �����
-			char* pass = new char[N + 1]; //�������� ������ ��� ������ ������
+			int strN = 31; // index of the last element in the array
+			//srand(time(NULL)); //initialize the random number generator
+			char* pass = new char[N + 1]; //allocate memory for the password string
 			for (int i = 0; i < N; i++)
 			{
-				pass[i] = str[rand() % strN]; //��������� ��������� ������
+				pass[i] = str[rand() % strN]; //insert a random character
 			}
-			pass[N] = 0; //���������� � ����� ������ ������� ����� ������
+			pass[N] = 0; //write null terminator at the end of the string
 			string input = pass;
 			string nos = sha256(input);
 			char* cstr = &nos[0];

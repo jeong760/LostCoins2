@@ -46,10 +46,10 @@
       <Filter>HASH</Filter>
     </ClCompile>
     <ClCompile Include="LostCoins.cpp">
-      <Filter>KEYHUNT</Filter>
+      <Filter>LostCoins</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>KEYHUNT</Filter>
+      <Filter>LostCoins</Filter>
     </ClCompile>
     <ClCompile Include="Int.cpp">
       <Filter>SECP256K1</Filter>
@@ -109,13 +109,13 @@
       <Filter>HASH</Filter>
     </ClInclude>
     <ClInclude Include="ArgParse.h">
-      <Filter>KEYHUNT</Filter>
+      <Filter>LostCoins</Filter>
     </ClInclude>
     <ClInclude Include="LostCoins.h">
-      <Filter>KEYHUNT</Filter>
+      <Filter>LostCoins</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>KEYHUNT</Filter>
+      <Filter>LostCoins</Filter>
     </ClInclude>
     <ClInclude Include="Int.h">
       <Filter>SECP256K1</Filter>

@@ -15,7 +15,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "sha256.cpp"
+#include "sha256.h"
 #include <sstream>
 #include <stdlib.h>
 #ifdef _WIN32

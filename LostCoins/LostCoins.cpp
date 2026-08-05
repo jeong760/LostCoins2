@@ -282,7 +282,7 @@ LostCoins::LostCoins(string addressFile, string seed, string zez, int diz, int s
 	}
 	if (rekey == 14) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 93 symbols \n  List        : abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 93 symbols \n  List        : abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 15) {
 		setlocale(LC_ALL, "Russian");
@@ -298,11 +298,11 @@ LostCoins::LostCoins(string addressFile, string seed, string zez, int diz, int s
 	}
 	if (rekey == 18) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 76 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789 \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 76 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789 \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 19) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 107 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 107 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 20) {
 		setlocale(LC_ALL, "Russian");
@@ -334,7 +334,7 @@ LostCoins::LostCoins(string addressFile, string seed, string zez, int diz, int s
 	}
 	if (rekey == 27) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 92 symbols \n  List        : abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 92 symbols \n  List        : abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 28) {
 		setlocale(LC_ALL, "Russian");
@@ -350,11 +350,11 @@ LostCoins::LostCoins(string addressFile, string seed, string zez, int diz, int s
 	}
 	if (rekey == 31) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 76 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789 \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n   Donate     : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 76 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789 \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n   Donate     : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 32) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 106 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s+[random letters] \n  Using       : 106 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 33) {
 		setlocale(LC_ALL, "Russian");
@@ -386,7 +386,7 @@ LostCoins::LostCoins(string addressFile, string seed, string zez, int diz, int s
 	}
 	if (rekey == 40) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 93 symbols \n  List        : abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 93 symbols \n  List        : abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 41) {
 		setlocale(LC_ALL, "Russian");
@@ -402,11 +402,11 @@ LostCoins::LostCoins(string addressFile, string seed, string zez, int diz, int s
 	}
 	if (rekey == 44) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 76 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789 \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate     : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 76 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789 \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate     : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 45) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 107 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(space)[random letters] \n  Using       : 107 symbols (russian) \n  List        : \xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~ \n  Rotor       : Generation of %.0f random letters \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 	if (rekey == 46) {
 		setlocale(LC_ALL, "Russian");
@@ -450,7 +450,7 @@ LostCoins::LostCoins(string addressFile, string seed, string zez, int diz, int s
 	}
 	if (rekey == 56) {
 		setlocale(LC_ALL, "Russian");
-		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 31 symbols  \n  List        : !#$%&'()*+,-./:;<=>?@[\]^_`{|}~ \n  Rotor       : Generation of %.0f random symbols \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
+		printf("\n  Random mode : %.0f \n  Passphrase  : %s(not supported) \n  Using       : 31 symbols  \n  List        : !#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~ \n  Rotor       : Generation of %.0f random symbols \n  Site        : https://github.com/phrutis/LostCoins \n  Donate      : bc1qh2mvnf5fujg93mwl8pe688yucaw9sflmwsukz9 \n\n", (double)rekey, seed.c_str(), (double)nbit);
 	}
 
 
@@ -21653,7 +21653,7 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	}
 	if (rekey == 14) {
 		int N = nbit;
-		char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+		char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~" };
 		int strN = 93; // index of the last element in the array
 		//srand(time(NULL)); //initialize the random number generator
 		char* pass = new char[N + 1]; //allocate memory for the password string
@@ -21749,7 +21749,7 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 18) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789" };
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789" };
 		int strN = 76; // index of the last element in the array
 		//srand(time(NULL)); //initialize the random number generator
 		char* pass = new char[N + 1]; //allocate memory for the password string
@@ -21773,7 +21773,7 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 19) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~" };
 		int strN = 107; // index of the last element in the array
 		//srand(time(NULL)); //initialize the random number generator
 		char* pass = new char[N + 1]; //allocate memory for the password string
@@ -21974,7 +21974,7 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	}
 	if (rekey == 27) {
 		int N = nbit;
-		char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+		char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~" };
 		int strN = 92; // index of the last element in the array
 		//srand(time(NULL)); //initialize the random number generator
 		char* pass = new char[N + 1]; //allocate memory for the password string
@@ -22078,7 +22078,7 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 31) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789" };
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789" };
 		int strN = 76; // index of the last element in the array
 		//srand(time(NULL)); //initialize the random number generator
 		char* pass = new char[N + 1]; //allocate memory for the password string
@@ -22104,7 +22104,7 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 32) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~" };
 		int strN = 106; // index of the last element in the array
 		//srand(time(NULL)); //initialize the random number generator
 		char* pass = new char[N + 1]; //allocate memory for the password string
@@ -22303,7 +22303,7 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	}
 	if (rekey == 40) {
 		int N = nbit;
-		char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+		char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~" };
 		int strN = 93; // index of the last element in the array
 		//srand(time(NULL)); //initialize the random number generator
 		char* pass = new char[N + 1]; //allocate memory for the password string
@@ -22407,7 +22407,7 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 44) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789" };
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789" };
 		int strN = 76; // index of the last element in the array
 		//srand(time(NULL)); //initialize the random number generator
 		char* pass = new char[N + 1]; //allocate memory for the password string
@@ -22433,7 +22433,7 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	if (rekey == 45) {
 		setlocale(LC_ALL, "Russian");
 		int N = nbit;
-		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+		char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~" };
 		int strN = 107; // index of the last element in the array
 		//srand(time(NULL)); //initialize the random number generator
 		char* pass = new char[N + 1]; //allocate memory for the password string
@@ -23294,7 +23294,7 @@ void LostCoins::getCPUStartingKey(int thId, Int &key, Point &startP)
 	}
 	if (rekey == 56) {
 		int N = nbit;
-		char str[]{ "!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+		char str[]{ "!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~" };
 		int strN = 31; // index of the last element in the array
 		//srand(time(NULL)); //initialize the random number generator
 		char* pass = new char[N + 1]; //allocate memory for the password string
@@ -43816,7 +43816,7 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		}
 		if (rekey == 14) {
 			int N = nbit;
-			char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+			char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~" };
 			int strN = 93; // index of the last element in the array
 			//srand(time(NULL)); //initialize the random number generator
 			char* pass = new char[N + 1]; //allocate memory for the password string
@@ -43912,7 +43912,7 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 18) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789" };
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789" };
 			int strN = 76; // index of the last element in the array
 			//srand(time(NULL)); //initialize the random number generator
 			char* pass = new char[N + 1]; //allocate memory for the password string
@@ -43936,7 +43936,7 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 19) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~" };
 			int strN = 107; // index of the last element in the array
 			//srand(time(NULL)); //initialize the random number generator
 			char* pass = new char[N + 1]; //allocate memory for the password string
@@ -44136,7 +44136,7 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		}
 		if (rekey == 27) {
 			int N = nbit;
-			char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+			char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~" };
 			int strN = 92; // index of the last element in the array
 			//srand(time(NULL)); //initialize the random number generator
 			char* pass = new char[N + 1]; //allocate memory for the password string
@@ -44240,7 +44240,7 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 31) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789" };
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789" };
 			int strN = 76; // index of the last element in the array
 			//srand(time(NULL)); //initialize the random number generator
 			char* pass = new char[N + 1]; //allocate memory for the password string
@@ -44266,7 +44266,7 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 32) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~" };
 			int strN = 106; // index of the last element in the array
 			//srand(time(NULL)); //initialize the random number generator
 			char* pass = new char[N + 1]; //allocate memory for the password string
@@ -44465,7 +44465,7 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		}
 		if (rekey == 40) {
 			int N = nbit;
-			char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+			char str[]{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~" };
 			int strN = 93; // index of the last element in the array
 			//srand(time(NULL)); //initialize the random number generator
 			char* pass = new char[N + 1]; //allocate memory for the password string
@@ -44569,7 +44569,7 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 44) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789" };
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789" };
 			int strN = 76; // index of the last element in the array
 			//srand(time(NULL)); //initialize the random number generator
 			char* pass = new char[N + 1]; //allocate memory for the password string
@@ -44595,7 +44595,7 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		if (rekey == 45) {
 			setlocale(LC_ALL, "Russian");
 			int N = nbit;
-			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff0123456789!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+			char str[]{ "\xc0\xc1\xc2\xc3\xc4\xc5\xa8\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xb8\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff""0123456789!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~" };
 			int strN = 107; // index of the last element in the array
 			//srand(time(NULL)); //initialize the random number generator
 			char* pass = new char[N + 1]; //allocate memory for the password string
@@ -45456,7 +45456,7 @@ void LostCoins::getGPUStartingKeys(int thId, int groupSize, int nbThread, Int *k
 		}
 		if (rekey == 56) {
 			int N = nbit;
-			char str[]{ "!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" };
+			char str[]{ "!#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~" };
 			int strN = 31; // index of the last element in the array
 			//srand(time(NULL)); //initialize the random number generator
 			char* pass = new char[N + 1]; //allocate memory for the password string
@@ -45754,7 +45754,7 @@ void LostCoins::Search(int nbThread, std::vector<int> gpuId, std::vector<int> gr
 					avgKeyRate / 1000000.0,
 					avgGpuKeyRate / 1000000.0,
 					formatThousands(count).c_str(),
-					nbFoundKey);
+					nbFoundKey.load());
 			}
 		}
 		if (diz == 1) {
@@ -45765,7 +45765,7 @@ void LostCoins::Search(int nbThread, std::vector<int> gpuId, std::vector<int> gr
 					avgKeyRate / 1000000.0,
 					avgGpuKeyRate / 1000000.0,
 					formatThousands(count).c_str(),
-					nbFoundKey);
+					nbFoundKey.load());
 			}
 		}
 
@@ -45777,7 +45777,7 @@ void LostCoins::Search(int nbThread, std::vector<int> gpuId, std::vector<int> gr
 					avgKeyRate / 1000000.0,
 					avgGpuKeyRate / 1000000.0,
 					formatThousands(count).c_str(),
-					nbFoundKey);
+					nbFoundKey.load());
 			}
 		}
 

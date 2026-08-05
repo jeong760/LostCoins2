@@ -97,7 +97,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" Condition="'$(Platform)'=='x64'">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 12.0.props" Condition="exists('$(VCTargetsPath)\BuildCustomizations\CUDA 12.0.props')" />
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 12.5.props" Condition="exists('$(VCTargetsPath)\BuildCustomizations\CUDA 12.5.props')" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -210,6 +210,6 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" Condition="'$(Platform)'=='x64'">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 12.0.targets" Condition="exists('$(VCTargetsPath)\BuildCustomizations\CUDA 12.0.targets')" />
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 12.5.targets" Condition="exists('$(VCTargetsPath)\BuildCustomizations\CUDA 12.5.targets')" />
   </ImportGroup>
 </Project>

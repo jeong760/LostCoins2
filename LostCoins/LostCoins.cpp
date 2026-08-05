@@ -18,8 +18,10 @@
 #include "sha256.cpp"
 #include <sstream>
 #include <stdlib.h>
+#ifdef _WIN32
 #include <windows.h>
 #include <conio.h>
+#endif
 
 #include <vector>
 #include <random>
@@ -71,8 +73,13 @@ LostCoins::LostCoins(string addressFile, string seed, string zez, int diz, int s
 		exit(1);
 	}
 
+#ifdef _WIN32
 	_fseeki64(wfd, 0, SEEK_END);
 	N = _ftelli64(wfd);
+#else
+	fseeko(wfd, 0, SEEK_END);
+	N = (uint64_t)ftello(wfd);
+#endif
 	N = N / 20;
 	rewind(wfd);
 
@@ -520,8 +527,10 @@ void LostCoins::output(string addr, string pAddr, string pAddrHex)
 		fprintf(f, "Priv (HEX): 0x%s\n", pAddrHex.c_str());
 
 	}
+#ifdef _WIN32
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+#endif
 	printf("\n\n=================================================================================\n* PubAddress: %s \n* Priv (WIF): p2pkh: %s \n* Priv (HEX): %s \n=================================================================================\n\n", addr.c_str(), pAddr.c_str(), pAddrHex.c_str());
 	if (needToClose)
 		fclose(f);

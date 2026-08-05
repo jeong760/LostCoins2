@@ -205,7 +205,7 @@ private:
 
 // Inline routines
 
-#ifndef WIN64
+#ifndef _WIN32
 
 // Missing intrinsics
 static uint64_t inline _umul128(uint64_t a, uint64_t b, uint64_t* h) {

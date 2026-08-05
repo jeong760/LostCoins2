@@ -7,8 +7,11 @@
 #include "SECP256k1.h"
 #include "Bloom.h"
 #include "GPU/GPUEngine.h"
-#ifdef WIN64
+#ifdef _WIN32
 #include <Windows.h>
+#else
+// POSIX mutex support for Linux/Unix builds
+#include <pthread.h>
 #endif
 
 #define CPU_GRP_SIZE 1024
@@ -105,7 +108,7 @@ private:
 	Int beta2;
 	Int lambda2;
 
-#ifdef WIN64
+#ifdef _WIN32
 	HANDLE ghMutex;
 #else
 	pthread_mutex_t  ghMutex;

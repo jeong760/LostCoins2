@@ -356,7 +356,7 @@ void Secp256K1::GetHash160(int type, bool compressed,
                            uint8_t *h0, uint8_t *h1, uint8_t *h2, uint8_t *h3)
 {
 
-#ifdef WIN64
+#ifdef _WIN32
     __declspec(align(16)) unsigned char sh0[64];
     __declspec(align(16)) unsigned char sh1[64];
     __declspec(align(16)) unsigned char sh2[64];

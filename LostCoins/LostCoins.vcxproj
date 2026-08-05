@@ -67,6 +67,7 @@
     <ProjectGuid>{C982E936-E84D-40E6-AA84-D439DC2D83A9}</ProjectGuid>
     <RootNamespace>LostCoins</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <CudaToolkitDir>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.5\</CudaToolkitDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

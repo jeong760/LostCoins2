@@ -8,6 +8,9 @@
 #include "GPU/GPUEngine.h"
 #ifdef _WIN32
 #include <Windows.h>
+#else
+// POSIX mutex support for Linux/Unix builds
+#include <pthread.h>
 #endif
 
 #define CPU_GRP_SIZE 1024

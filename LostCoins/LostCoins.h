@@ -6,7 +6,7 @@
 #include "SECP256k1.h"
 #include "Bloom.h"
 #include "GPU/GPUEngine.h"
-#ifdef WIN64
+#ifdef _WIN32
 #include <Windows.h>
 #endif
 
@@ -104,7 +104,7 @@ private:
 	Int beta2;
 	Int lambda2;
 
-#ifdef WIN64
+#ifdef _WIN32
 	HANDLE ghMutex;
 #else
 	pthread_mutex_t  ghMutex;

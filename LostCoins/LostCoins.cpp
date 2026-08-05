@@ -27,7 +27,7 @@
 #include <iomanip>
 using namespace std;
 
-#ifndef WIN64
+#ifndef _WIN32
 #include <pthread.h>
 #endif
 
@@ -472,7 +472,7 @@ double log1(double x)
 void LostCoins::output(string addr, string pAddr, string pAddrHex)
 {
 
-#ifdef WIN64
+#ifdef _WIN32
 	WaitForSingleObject(ghMutex, INFINITE);
 #else
 	pthread_mutex_lock(&ghMutex);
@@ -526,7 +526,7 @@ void LostCoins::output(string addr, string pAddr, string pAddrHex)
 	if (needToClose)
 		fclose(f);
 
-#ifdef WIN64
+#ifdef _WIN32
 	ReleaseMutex(ghMutex);
 #else
 	pthread_mutex_unlock(&ghMutex);
@@ -602,7 +602,7 @@ bool LostCoins::checkPrivKey(string addr, Int &key, int32_t incr, int endomorphi
 
 // ----------------------------------------------------------------------------
 
-#ifdef WIN64
+#ifdef _WIN32
 DWORD WINAPI _FindKey(LPVOID lpParam)
 {
 #else
@@ -614,7 +614,7 @@ void *_FindKey(void *lpParam)
 	return 0;
 }
 
-#ifdef WIN64
+#ifdef _WIN32
 DWORD WINAPI _FindKeyGPU(LPVOID lpParam)
 {
 #else
@@ -57888,7 +57888,7 @@ void LostCoins::Search(int nbThread, std::vector<int> gpuId, std::vector<int> gr
 		params[i].threadId = i;
 		params[i].isRunning = true;
 
-#ifdef WIN64
+#ifdef _WIN32
 		DWORD thread_id;
 		CreateThread(NULL, 0, _FindKey, (void *)(params + i), 0, &thread_id);
 		ghMutex = CreateMutex(NULL, FALSE, NULL);
@@ -57907,7 +57907,7 @@ void LostCoins::Search(int nbThread, std::vector<int> gpuId, std::vector<int> gr
 		params[nbCPUThread + i].gpuId = gpuId[i];
 		params[nbCPUThread + i].gridSizeX = gridSize[2 * i];
 		params[nbCPUThread + i].gridSizeY = gridSize[2 * i + 1];
-#ifdef WIN64
+#ifdef _WIN32
 		DWORD thread_id;
 		CreateThread(NULL, 0, _FindKeyGPU, (void *)(params + (nbCPUThread + i)), 0, &thread_id);
 #else
@@ -57916,7 +57916,7 @@ void LostCoins::Search(int nbThread, std::vector<int> gpuId, std::vector<int> gr
 #endif
 	}
 
-#ifndef WIN64
+#ifndef _WIN32
 	setvbuf(stdout, NULL, _IONBF, 0);
 #endif
 

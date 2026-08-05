@@ -18,19 +18,15 @@
 #include <device_atomic_functions.h>
 #include <device_functions.h>
 
-// ✅ Forward declarations of external GPU functions
-// These are defined in GPUMath.h and GPUHash.h
-__device__ void Load256A(uint64_t *dst, uint64_t *src);
-__device__ void Store256A(uint64_t *dst, uint64_t *src);
-__device__ void Load256(uint64_t *dst, uint64_t *src);
-__device__ void Store256(uint64_t *dst, uint64_t *src);
+// Note: Load256, Load256A, Store256A are macros defined in GPUMath.h (included before this file).
+// The following are forward declarations for real __device__ functions defined in GPUMath.h/GPUHash.h.
 __device__ void ModSub256(uint64_t *r, uint64_t *a, uint64_t *b);
 __device__ void ModSub256(uint64_t *r, uint64_t *a);
 __device__ void ModNeg256(uint64_t *r, uint64_t *a);
 __device__ void _ModMult(uint64_t *r, uint64_t *a, uint64_t *b);
 __device__ void _ModMult(uint64_t *r, uint64_t *a);
 __device__ void _ModSqr(uint64_t *rp, const uint64_t *up);
-__device__ void _ModInvGrouped(uint64_t **dx);
+__device__ void _ModInvGrouped(uint64_t r[GRP_SIZE / 2 + 1][4]);
 __device__ void _GetHash160(uint64_t *px, uint64_t *py, uint8_t *hash);
 __device__ void _GetHash160Comp(uint64_t *x, uint8_t isOdd, uint8_t *hash);
 __device__ void _GetHash160CompSym(uint64_t *x, uint8_t *h1, uint8_t *h2);

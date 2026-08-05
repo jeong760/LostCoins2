@@ -134,7 +134,7 @@ int main(int argc, const char* argv[])
 		CONSOLE_SCREEN_BUFFER_INFO csbi;
 #else
 		// Minimal console replacement for non-Windows platforms
-		console(unsigned /*width*/, unsigned /*height") { }
+		console(unsigned /*width*/, unsigned /*height*/) { }
 		~console() { }
 		void color(unsigned /*color*/ = 0x07) { }
 #endif

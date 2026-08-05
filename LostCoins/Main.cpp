@@ -353,15 +353,16 @@ int main(int argc, const char* argv[])
 
 			}
 		}
-		char* speed;
+		const char* speed;
 		if (diz == 0) {
 			speed = "SLOW (info+counter are displayed)";
-		}
-		if (diz == 1) {
+		} else if (diz == 1) {
 			speed = "VERY SLOW (info+hashes+counter are displayed)";
-		}
-		if (diz > 1) {
+		} else if (diz > 1) {
 			speed = "HIGH (only counter)";
+		} else {
+			printf("Invalid -d value: %d. Must be 0, 1, or >= 2.\n", diz);
+			exit(-1);
 		}
 		setlocale(LC_ALL, "Russian");
 		printf("\n");

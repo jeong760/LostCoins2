@@ -29,10 +29,6 @@
 #include <iomanip>
 using namespace std;
 
-#ifndef _WIN32
-#include <pthread.h>
-#endif
-
 using namespace std;
 
 Point Gn[CPU_GRP_SIZE / 2];

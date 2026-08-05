@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <atomic>
 #include "SECP256k1.h"
 #include "Bloom.h"
 #include "GPU/GPUEngine.h"
@@ -79,7 +80,7 @@ private:
 	bool endOfSearch;
 	int nbCPUThread;
 	int nbGPUThread;
-	int nbFoundKey;
+	std::atomic<int> nbFoundKey;
 	int nbit;
 	int nbit2;
 	int diz;

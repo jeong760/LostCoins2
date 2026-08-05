@@ -65,6 +65,11 @@ int Bloom::add(const void *buffer, int len)
     return bloom_check_add(buffer, len, 1);
 }
 
+bool Bloom::isReady() const
+{
+    return _ready != 0;
+}
+
 
 void Bloom::print()
 {

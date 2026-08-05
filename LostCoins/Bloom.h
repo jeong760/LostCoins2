@@ -9,6 +9,7 @@ public:
     ~Bloom();
     int check(const void *buffer, int len);
     int add(const void *buffer, int len);
+    bool isReady() const;
     void print();
     int reset();
     int save(const char *filename);
